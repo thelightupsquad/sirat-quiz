@@ -519,47 +519,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -576,16 +535,16 @@
             }
             
             .timer {
-                font-size: 18px;
+                font-size: 22px;
             }
             
             .question-text {
-                font-size: 17px;
+                font-size: 19px;
             }
             
             .option {
-                padding: 16px 18px;
-                font-size: 15px;
+                padding: 18px 20px;
+                font-size: 16px;
             }
 
             .info-box {
@@ -598,10 +557,6 @@
                 padding: 12px 18px;
                 font-size: 14px;
             }
-
-            .modal-content {
-                padding: 30px 25px;
-            }
         }
     </style>
 </head>
@@ -609,7 +564,7 @@
     <div id="app"></div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        const GOOGLE_SCRIPT_URL = '';
         
         const QUESTIONS = [
             {
@@ -673,155 +628,8 @@
             loading: false,
             scriptUrl: GOOGLE_SCRIPT_URL,
             lastSubmission: null,
-            submittedPhones: {},
-            exitCount: 0,
-            sessionId: null
+            submittedPhones: {}
         };
-
-        function generateSessionId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
-        function saveState() {
-            try {
-                const stateData = {
-                    view: state.view,
-                    participant: state.participant,
-                    answers: state.answers,
-                    currentQuestion: state.currentQuestion,
-                    timeLeft: state.timeLeft,
-                    startTime: state.startTime,
-                    submittedPhones: state.submittedPhones,
-                    exitCount: state.exitCount,
-                    sessionId: state.sessionId
-                };
-                
-                window.quizStateData = stateData;
-                console.log('✅ State saved - Exit count:', stateData.exitCount);
-            } catch (e) {
-                console.error('Error saving state:', e);
-            }
-        }
-
-        function loadState() {
-            try {
-                if (window.quizStateData) {
-                    const savedState = window.quizStateData;
-                    console.log('📂 Loading state:', savedState);
-                    
-                    if (savedState.view === 'quiz' && savedState.sessionId) {
-                        state = {
-                            ...state,
-                            ...savedState,
-                            timerInterval: null
-                        };
-                        
-                        if (savedState.startTime) {
-                            const elapsed = Math.floor((Date.now() - savedState.startTime) / 1000);
-                            state.timeLeft = Math.max(0, (3 * 60) - elapsed);
-                            
-                            if (state.timeLeft <= 0) {
-                                submitQuiz();
-                                return;
-                            }
-                        }
-                        
-                        state.exitCount++;
-                        console.log('🚪 Exit count incremented to:', state.exitCount);
-                        
-                        if (state.exitCount > 2) {
-                            alert('⚠️ আপনি ২ বারের বেশি পরীক্ষা থেকে বের হয়ে গেছেন। নতুন করে পরীক্ষা শুরু করুন।');
-                            resetQuiz();
-                            return;
-                        }
-                        
-                        saveState();
-                        showExitWarning();
-                        return;
-                    } else if (savedState.submittedPhones) {
-                        state.submittedPhones = savedState.submittedPhones;
-                    }
-                }
-            } catch (e) {
-                console.error('Error loading state:', e);
-            }
-        }
-
-        function showExitWarning() {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.id = 'exitWarningModal';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div style="font-size: 60px; margin-bottom: 20px;">⚠️</div>
-                    <h3 style="color: #dc2626; margin-bottom: 15px; font-size: 24px; font-weight: 800;">সতর্কতা!</h3>
-                    <p style="color: #374151; margin-bottom: 15px; font-size: 17px; font-weight: 600;">
-                        আপনি পরীক্ষা থেকে বের হয়ে গিয়েছিলেন।
-                    </p>
-                    <div style="background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); 
-                                padding: 15px; 
-                                border-radius: 12px; 
-                                margin-bottom: 20px;
-                                border: 2px solid #fecaca;">
-                        <p style="color: #dc2626; font-weight: 800; font-size: 20px; margin: 0;">
-                            বের হওয়ার সংখ্যা: ${state.exitCount}/2
-                        </p>
-                    </div>
-                    <p style="color: ${state.exitCount === 2 ? '#dc2626' : '#6b7280'}; 
-                              font-size: 15px; 
-                              margin-bottom: 25px;
-                              font-weight: ${state.exitCount === 2 ? '700' : '500'};">
-                        ${state.exitCount === 2 ? '🚨 আর একবার বের হলে পরীক্ষা বাতিল হবে!' : '⚠️ অনুগ্রহ করে সতর্ক থাকুন।'}
-                    </p>
-                    <button onclick="closeExitWarning()" 
-                            style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                                   color: white;
-                                   border: none;
-                                   padding: 14px 35px;
-                                   border-radius: 12px;
-                                   font-size: 17px;
-                                   font-weight: 700;
-                                   cursor: pointer;
-                                   box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">
-                        পরীক্ষা চালিয়ে যান
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-
-        function closeExitWarning() {
-            const modal = document.getElementById('exitWarningModal');
-            if (modal) {
-                modal.remove();
-            }
-            startTimer();
-            render();
-        }
-
-        function resetQuiz() {
-            if (state.timerInterval) {
-                clearInterval(state.timerInterval);
-            }
-            
-            state = {
-                view: 'start',
-                participant: { name: '', phone: '' },
-                answers: {},
-                currentQuestion: 0,
-                timeLeft: 3 * 60,
-                startTime: null,
-                timerInterval: null,
-                loading: false,
-                scriptUrl: GOOGLE_SCRIPT_URL,
-                lastSubmission: null,
-                submittedPhones: state.submittedPhones,
-                exitCount: 0,
-                sessionId: null
-            };
-            saveState();
-            render();
-        }
 
         function formatTime(seconds) {
             const mins = Math.floor(seconds / 60);
@@ -830,57 +638,29 @@
         }
 
         function startQuiz() {
-            try {
-                const nameInput = document.getElementById('name');
-                const phoneInput = document.getElementById('phone');
-                
-                if (!nameInput || !phoneInput) {
-                    alert('দয়া করে সব তথ্য পূরণ করুন');
-                    return;
-                }
-                
-                const name = nameInput.value.trim();
-                const phone = phoneInput.value.trim();
-                
-                if (!name || !phone) {
-                    alert('দয়া করে নাম ও মোবাইল নম্বর দিন');
-                    return;
-                }
-
-                if (!/^01\d{9}$/.test(phone)) {
-                    alert('⚠️ সঠিক মোবাইল নম্বর দিন (01XXXXXXXXX)');
-                    return;
-                }
-
-                if (state.submittedPhones[phone]) {
-                    alert('⚠️ এই মোবাইল নম্বর দিয়ে ইতিমধ্যে পরীক্ষা দেওয়া হয়েছে!');
-                    return;
-                }
-                
-                state.participant = { name, phone };
-                state.startTime = Date.now();
-                state.sessionId = generateSessionId();
-                state.view = 'quiz';
-                state.exitCount = 0;
-                console.log('🎯 Quiz started - Session ID:', state.sessionId);
-                saveState();
-                startTimer();
-                render();
-            } catch (e) {
-                console.error('Error in startQuiz:', e);
-                alert('একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            if (!name || !phone) {
+                alert('দয়া করে নাম ও মোবাইল নম্বর দিন');
+                return;
             }
+
+            if (state.submittedPhones[phone]) {
+                alert('⚠️ এই মোবাইল নম্বর দিয়ে ইতিমধ্যে পরীক্ষা দেওয়া হয়েছে!');
+                return;
+            }
+            
+            state.participant = { name, phone };
+            state.startTime = new Date();
+            state.view = 'quiz';
+            startTimer();
+            render();
         }
 
         function startTimer() {
-            if (state.timerInterval) {
-                clearInterval(state.timerInterval);
-            }
-            
             state.timerInterval = setInterval(() => {
                 state.timeLeft--;
-                saveState();
-                
                 if (state.timeLeft <= 0) {
                     submitQuiz();
                 }
@@ -942,7 +722,7 @@
             state.loading = true;
             render();
             
-            const endTime = Date.now();
+            const endTime = new Date();
             const timeTaken = Math.floor((endTime - state.startTime) / 1000);
             
             let correct = 0, wrong = 0;
@@ -960,7 +740,6 @@
             const unanswered = QUESTIONS.length - correct - wrong;
             
             const submission = {
-                sessionId: state.sessionId,
                 name: state.participant.name,
                 phone: state.participant.phone,
                 correct: correct,
@@ -968,11 +747,10 @@
                 unanswered: unanswered,
                 timeTaken: formatTime(timeTaken),
                 submittedAt: new Date().toLocaleString('bn-BD'),
-                timestamp: Date.now(),
-                exitCount: state.exitCount
+                timestamp: Date.now()
             };
 
-            if (state.scriptUrl && state.scriptUrl !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+            if (state.scriptUrl) {
                 try {
                     await fetch(state.scriptUrl, {
                         method: 'POST',
@@ -982,9 +760,8 @@
                         },
                         body: JSON.stringify(submission)
                     });
-                    console.log('✅ Submitted to Google Sheets');
                 } catch (error) {
-                    console.error('❌ Submission error:', error);
+                    console.error('Submission error:', error);
                 }
             }
 
@@ -992,22 +769,17 @@
             state.lastSubmission = submission;
             state.loading = false;
             state.view = 'submitted';
-            state.sessionId = null;
-            state.exitCount = 0;
-            saveState();
             render();
         }
 
         function selectAnswer(questionId, answerIndex) {
             state.answers[questionId] = answerIndex;
-            saveState();
             render();
         }
 
         function nextQuestion() {
             if (state.currentQuestion < QUESTIONS.length - 1) {
                 state.currentQuestion++;
-                saveState();
                 render();
             }
         }
@@ -1015,7 +787,6 @@
         function prevQuestion() {
             if (state.currentQuestion > 0) {
                 state.currentQuestion--;
-                saveState();
                 render();
             }
         }
@@ -1031,9 +802,9 @@
                         <div class="info-box">
                             <h3>প্রতিযোগিতার বিবরণ:</h3>
                             <ul>
-                                <li>মোট প্রশ্ন: ${QUESTIONS.length}টি MCQ</li>
+                                <li>মোট প্রশ্ন: ৮টি MCQ</li>
                                 <li>সময়: ৩ মিনিট</li>
-                                <li>পরীক্ষা চলাকালীন ২ বারের বেশি বের হলে বাতিল হবে</li>
+                                <li>একবার শুরু করলে পরীক্ষা শেষ না করে বের হওয়া যাবে না</li>
                                 <li>সব প্রশ্নের উত্তর দেওয়ার চেষ্টা করুন</li>
                             </ul>
                         </div>
@@ -1049,7 +820,7 @@
 
                         <div class="form-group">
                             <label>📱 মোবাইল নম্বর *</label>
-                            <input type="tel" id="phone" placeholder="01XXXXXXXXX" maxlength="11">
+                            <input type="tel" id="phone" placeholder="01XXXXXXXXX">
                         </div>
 
                         <button class="btn btn-primary" onclick="startQuiz()">
@@ -1093,7 +864,7 @@
                     <div class="timer-box">
                         <div class="timer-header">
                             <div style="color:#065f46; font-weight:600; font-size:15px;">
-                                📝 প্রশ্ন ${state.currentQuestion + 1}/${QUESTIONS.length} | 🚫 বের: ${state.exitCount}/2
+                                📝 প্রশ্ন ${state.currentQuestion + 1}/${QUESTIONS.length}
                             </div>
                             <div class="timer">
                                 ⏰ <span id="timer">${formatTime(state.timeLeft)}</span>
@@ -1145,7 +916,6 @@
                                     <li>ভুল উত্তর: <strong>${state.lastSubmission.wrong}টি</strong></li>
                                     <li>উত্তর দেননি: <strong>${state.lastSubmission.unanswered}টি</strong></li>
                                     <li>সময় লেগেছে: <strong>${state.lastSubmission.timeTaken}</strong></li>
-                                    <li>পরীক্ষা থেকে বেরিয়েছেন: <strong>${state.lastSubmission.exitCount} বার</strong></li>
                                 </ul>
                             </div>
 
@@ -1170,25 +940,9 @@
             }
         }
 
-        window.addEventListener('beforeunload', (e) => {
-            if (state.view === 'quiz' && state.sessionId) {
-                e.preventDefault();
-                e.returnValue = '';
-                saveState();
-            }
-        });
-
         window.onload = function() {
-            console.log('🚀 App loading...');
-            loadState();
-            
-            if (state.view === 'quiz' && state.sessionId && state.exitCount > 0) {
-                return;
-            }
-            
             render();
         };
-
     </script>
 </body>
 </html>
