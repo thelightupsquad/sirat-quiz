@@ -948,11 +948,57 @@
             else if (state.view === 'submitted') app.innerHTML = renderSubmitted();
         }
 
+        let hiddenTime = null;
+
         window.addEventListener('beforeunload', (e) => {
             if (state.view === 'quiz' && state.sessionId) {
                 e.preventDefault();
                 e.returnValue = '';
                 saveState();
+            }
+        });
+
+        // Detect tab switch, minimize, or leaving page
+        document.addEventListener('visibilitychange', () => {
+            if (state.view !== 'quiz' || !state.sessionId) return;
+
+            if (document.hidden) {
+                // User left - record time
+                hiddenTime = Date.now();
+                console.log('👋 User left page');
+                saveState();
+            } else {
+                // User returned
+                if (hiddenTime) {
+                    const awayTime = Math.floor((Date.now() - hiddenTime) / 1000);
+                    console.log(`🔙 User returned after ${awayTime}s`);
+                    
+                    // Only count as exit if away for 3+ seconds
+                    if (awayTime >= 3) {
+                        state.exitCount++;
+                        console.log('🚪 Exit count increased:', state.exitCount);
+                        
+                        if (state.exitCount > 2) {
+                            if (state.timerInterval) clearInterval(state.timerInterval);
+                            alert('⚠️ আপনি ২ বারের বেশি পরীক্ষা থেকে বের হয়ে গেছেন!');
+                            resetQuiz();
+                            return;
+                        }
+                        
+                        saveState();
+                        showExitWarning();
+                        return;
+                    }
+                    
+                    hiddenTime = null;
+                }
+                
+                // Just update timer, don't show modal
+                if (state.timerInterval) {
+                    clearInterval(state.timerInterval);
+                }
+                startTimer();
+                render();
             }
         });
 
