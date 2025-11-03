@@ -13,25 +13,40 @@
         }
         
         body {
+            background: #0f766e;
+            background: -webkit-linear-gradient(135deg, #0f766e 0%, #065f46 50%, #064e3b 100%);
             background: linear-gradient(135deg, #0f766e 0%, #065f46 50%, #064e3b 100%);
             min-height: 100vh;
             padding: 8px;
             position: relative;
             overflow-x: hidden;
+            transition: background 0.5s ease;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+        
+        body.warning-time {
+            background: #dc2626;
+            background: -webkit-linear-gradient(135deg, #fca5a5 0%, #f87171 50%, #ef4444 100%);
+            background: linear-gradient(135deg, #fca5a5 0%, #f87171 50%, #ef4444 100%);
+            -webkit-animation: backgroundPulse 1s infinite;
+            animation: backgroundPulse 1s infinite;
+        }
+        
+        @-webkit-keyframes backgroundPulse {
+            0%, 100% { 
+                background: -webkit-linear-gradient(135deg, #fca5a5 0%, #f87171 50%, #ef4444 100%);
+            }
+            50% { 
+                background: -webkit-linear-gradient(135deg, #fecaca 0%, #fca5a5 50%, #f87171 100%);
+            }
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% { 
+                background: linear-gradient(135deg, #fca5a5 0%, #f87171 50%, #ef4444 100%);
+            }
+            50% { 
+                background: linear-gradient(135deg, #fecaca 0%, #fca5a5 50%, #f87171 100%);
+            }
         }
         
         .container {
@@ -44,27 +59,12 @@
         
         .card {
             background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
             border-radius: 16px;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.2),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             padding: 20px;
             margin-bottom: 12px;
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .card::before {
@@ -74,14 +74,11 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
+            background: #10b981;
         }
         
         h1 {
-            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #065f46;
             font-size: 1.8em;
             text-align: center;
             margin-bottom: 8px;
@@ -98,12 +95,11 @@
         }
         
         .info-box {
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            background: #d1fae5;
             border-radius: 14px;
             padding: 16px;
             margin-bottom: 16px;
             border: 2px solid rgba(16, 185, 129, 0.2);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.12);
         }
         
         .info-box h3 {
@@ -128,7 +124,7 @@
         }
 
         .info-box li::before {
-            content: '✓';
+            content: '\2713';
             position: absolute;
             left: 0;
             color: #10b981;
@@ -137,7 +133,7 @@
         }
 
         .warning-box {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            background: #fef3c7;
             border: 2px solid #f59e0b;
             border-radius: 14px;
             padding: 12px;
@@ -170,14 +166,12 @@
             border: 2px solid #e5e7eb;
             border-radius: 10px;
             font-size: 14px;
-            transition: all 0.3s;
             background: white;
         }
         
         input:focus {
             outline: none;
             border-color: #10b981;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
         
         .btn {
@@ -188,11 +182,8 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: block;
+            text-align: center;
         }
         
         .btn:disabled {
@@ -201,49 +192,46 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: #10b981;
             color: white;
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
         }
         
-        .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(16, 185, 129, 0.4);
+        .btn-primary:active {
+            background: #059669;
         }
         
         .btn-secondary {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            color: #374151;
-            padding: 12px 18px;
-            width: auto;
-            font-size: 13px;
-        }
+    background: #e5e7eb;
+    color: #374151;
+    padding: 12px 14px;
+    width: auto;
+    font-size: 16px;  /* 13px থেকে 16px */
+    display: inline-block;
+    font-weight: 700;
+}
         
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+        .btn-secondary:active {
+            background: #d1d5db;
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
-        }
-        
-        .btn-danger:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(239, 68, 68, 0.4);
-        }
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #78350f;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.btn-danger:active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
         
         .timer-box {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
-            position: sticky;
-            top: 8px;
-            z-index: 100;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            padding: 8px 12px;  
+            margin-bottom: 12px;
             border: 2px solid rgba(16, 185, 129, 0.2);
         }
         
@@ -251,38 +239,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            gap: 12px;
-            flex-wrap: wrap;
+            margin-bottom: 6px;
         }
         
         .timer-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             color: #065f46;
             font-weight: 700;
-            font-size: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .timer-info span {
-            white-space: nowrap;
+            font-size: 14px;
         }
         
         .timer {
             color: #ef4444;
-            font-size: 22px;
-            font-weight: 900;
+            font-size: 20px;
+            font-weight: 900 !important;
             font-family: 'Courier New', monospace;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
         }
         
         .timer.warning {
+            -webkit-animation: pulse 1s infinite;
             animation: pulse 1s infinite;
+        }
+        
+        @-webkit-keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
         
         @keyframes pulse {
@@ -292,18 +272,15 @@
         
         .progress-bar {
             width: 100%;
-            height: 10px;
+            height: 5px;
             background: #e5e7eb;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #10b981, #34d399);
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+            background: #10b981;
             border-radius: 10px;
         }
         
@@ -311,7 +288,6 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
             margin-bottom: 12px;
             border: 2px solid #f3f4f6;
             text-align: center;
@@ -319,7 +295,7 @@
         
         .question-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            background: #d1fae5;
             color: #065f46;
             padding: 4px 10px;
             border-radius: 14px;
@@ -346,60 +322,44 @@
             background: white;
             text-align: left;
             cursor: pointer;
-            transition: all 0.2s;
             font-size: 13px;
             font-weight: 500;
+            display: block;
         }
         
-        .option:hover {
+        .option:active {
             border-color: #10b981;
             background: #f0fdf4;
-            transform: translateX(-3px);
         }
         
         .option.selected {
             border-color: #10b981;
-            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-            transform: translateX(-3px);
+            background: #d1fae5;
         }
         
         .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .nav-buttons .btn-secondary,
-        .nav-buttons .btn-primary {
-            flex: 0 0 auto;
-        }
-        
-        .nav-buttons .btn-danger.center {
-            width: 100%;
-            margin-top: 4px;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    gap: 10px;
+}
+
+.nav-buttons .btn-secondary {
+    margin: 0;
+    flex: 0 0 auto;  
+    min-width: 80px;  
+}
+
+.nav-buttons .btn-danger {
+    margin: 0;
+    flex: 1;
+}
         
         .success-icon {
             text-align: center;
             font-size: 80px;
             margin-bottom: 20px;
-            animation: bounceIn 0.7s ease-out;
-        }
-
-        @keyframes bounceIn {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            50% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
         }
         
         .success-message {
@@ -407,10 +367,7 @@
         }
         
         .success-message h2 {
-            background: linear-gradient(135deg, #065f46 0%, #10b981 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #065f46;
             font-size: 28px;
             margin-bottom: 16px;
             font-weight: 800;
@@ -435,8 +392,14 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            animation: spin 1s linear infinite;
             margin: 20px auto;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
         }
         
         @keyframes spin {
@@ -451,21 +414,25 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             z-index: 10000;
             padding: 20px;
+            display: table;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .modal-inner {
+            display: table-cell;
+            vertical-align: middle;
         }
 
         .modal-content {
             background: white;
             padding: 30px;
             border-radius: 16px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 420px;
-            width: 100%;
+            margin: 0 auto;
         }
 
         @media (max-width: 480px) {
@@ -483,17 +450,7 @@
             
             .timer-box {
                 padding: 10px;
-                top: 5px;
                 margin-bottom: 12px;
-            }
-            
-            .timer-header {
-                margin-bottom: 4px;
-            }
-            
-            .timer-info {
-                font-size: 18px;
-                gap: 16px;
             }
             
             .timer {
@@ -501,7 +458,7 @@
             }
             
             .progress-bar {
-                height: 4px;
+                height: 6px;
             }
             
             .question-text {
@@ -516,15 +473,6 @@
             .modal-content {
                 padding: 25px 20px;
             }
-            
-            .nav-buttons {
-                gap: 12px;
-            }
-            
-            .btn-secondary {
-                font-size: 12px;
-                padding: 12px 14px;
-            }
         }
     </style>
 </head>
@@ -532,9 +480,9 @@
     <div id="app"></div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+        var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdKCoh8WKK9shvA2O9BoZ-30S-8EL7RN3MSACnP2G_CRTo5N8VIOgQO8tcaWSUQZ2FFw/exec';
         
-        const QUESTIONS = [
+        var QUESTIONS = [
             {
                 id: 1,
                 question: 'রাসূলুল্লাহ ﷺ কোন সালে জন্মগ্রহণ করেন?',
@@ -582,23 +530,87 @@
                 question: 'মক্কা বিজয় কোন সালে হয়?',
                 options: ['৬ হিজরী', '৭ হিজরী', '৮ হিজরী', '৯ হিজরী'],
                 correctAnswer: 2
+            },
+			{
+                id: 9,
+                question: 'পিতার দিক থেকে নবিজির বংশধারায় "মুদরিকা" -এর পুত্র কে?',
+                options: ['মুদর', 'রূহ', 'খুযাইমাহ', 'মালিক'],
+                correctAnswer: 2
             }
         ];
 
-        let state = {
+        var state = {
             view: 'start',
             participant: { name: '', phone: '' },
             answers: {},
             currentQuestion: 0,
-            timeLeft: 3 * 60,
+            timeLeft: 1 * 60,
             startTime: null,
             timerInterval: null,
             loading: false,
             lastSubmission: null,
             submittedPhones: {},
             exitCount: 0,
-            sessionId: null
+            sessionId: null,
+            warningPlayed: false
         };
+
+        var audioContext = null;
+        var hasPlayedWarning = false;
+        
+        function initAudio() {
+            try {
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioContext = new AudioContext();
+                }
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+        
+        function playWarningBeep() {
+            if (!audioContext || hasPlayedWarning) return;
+            
+            try {
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200, 100, 200]);
+                }
+                
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
+                var startTime = audioContext.currentTime;
+                var beepInterval = 0.7;
+                var totalDuration = 5;
+                var beepCount = Math.floor(totalDuration / beepInterval);
+                
+                for (var i = 0; i < beepCount; i++) {
+                    (function(index) {
+                        var oscillator = audioContext.createOscillator();
+                        var gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(800, startTime + (index * beepInterval));
+                        
+                        gainNode.gain.setValueAtTime(0, startTime + (index * beepInterval));
+                        gainNode.gain.linearRampToValueAtTime(0.3, startTime + (index * beepInterval) + 0.05);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + (index * beepInterval) + 0.4);
+                        
+                        oscillator.start(startTime + (index * beepInterval));
+                        oscillator.stop(startTime + (index * beepInterval) + 0.4);
+                    })(i);
+                }
+                
+                hasPlayedWarning = true;
+            } catch (e) {
+                console.log('Warning error:', e);
+            }
+        }
 
         function generateSessionId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -606,7 +618,7 @@
 
         function saveState() {
             try {
-                localStorage.setItem('seerahQuiz', JSON.stringify({
+                var data = {
                     view: state.view,
                     participant: state.participant,
                     answers: state.answers,
@@ -616,7 +628,8 @@
                     submittedPhones: state.submittedPhones,
                     exitCount: state.exitCount,
                     sessionId: state.sessionId
-                }));
+                };
+                localStorage.setItem('seerahQuiz', JSON.stringify(data));
             } catch (e) {
                 console.error('Save error:', e);
             }
@@ -624,17 +637,24 @@
 
         function loadState() {
             try {
-                const saved = localStorage.getItem('seerahQuiz');
+                var saved = localStorage.getItem('seerahQuiz');
                 if (!saved) return;
                 
-                const data = JSON.parse(saved);
+                var data = JSON.parse(saved);
                 
                 if (data.view === 'quiz' && data.sessionId) {
-                    state = { ...state, ...data, timerInterval: null };
+                    state.view = data.view;
+                    state.participant = data.participant;
+                    state.answers = data.answers;
+                    state.currentQuestion = data.currentQuestion;
+                    state.timeLeft = data.timeLeft;
+                    state.startTime = data.startTime;
+                    state.exitCount = data.exitCount;
+                    state.sessionId = data.sessionId;
                     
                     if (data.startTime) {
-                        const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
-                        state.timeLeft = Math.max(0, 180 - elapsed);
+                        var elapsed = Math.floor((Date.now() - data.startTime) / 1000);
+                        state.timeLeft = Math.max(0, 60 - elapsed);
                         
                         if (state.timeLeft <= 0) {
                             submitQuiz();
@@ -664,71 +684,71 @@
         }
 
         function showExitWarning() {
-            const modal = document.createElement('div');
+            var modal = document.createElement('div');
             modal.className = 'modal';
             modal.id = 'exitModal';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>
-                    <h3 style="color: #dc2626; margin-bottom: 12px; font-size: 20px; font-weight: 800;">সতর্কতা!</h3>
-                    <p style="color: #374151; margin-bottom: 12px; font-size: 15px; font-weight: 600;">
-                        আপনি পরীক্ষা থেকে বের হয়ে গিয়েছিলেন।
-                    </p>
-                    <div style="background: #fee2e2; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fca5a5;">
-                        <p style="color: #dc2626; font-weight: 800; font-size: 18px; margin: 0;">
-                            বের হওয়া: ${state.exitCount}/2
-                        </p>
-                    </div>
-                    <p style="color: ${state.exitCount === 2 ? '#dc2626' : '#6b7280'}; font-size: 13px; margin-bottom: 20px; font-weight: ${state.exitCount === 2 ? '700' : '500'};">
-                        ${state.exitCount === 2 ? '🚨 আরেকবার বের হলে বাতিল!' : '⚠️ সতর্ক থাকুন।'}
-                    </p>
-                    <button onclick="closeExitWarning()" 
-                            style="background: linear-gradient(135deg, #10b981, #059669);
-                                   color: white; border: none; padding: 12px 30px;
-                                   border-radius: 10px; font-size: 15px; font-weight: 700;
-                                   cursor: pointer; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);">
-                        চালিয়ে যান
-                    </button>
-                </div>
-            `;
+            modal.innerHTML = '<div class="modal-inner"><div class="modal-content">' +
+                '<div style="font-size: 50px; margin-bottom: 15px;">⚠️</div>' +
+                '<h3 style="color: #dc2626; margin-bottom: 12px; font-size: 20px; font-weight: 800;">সতর্কতা!</h3>' +
+                '<p style="color: #374151; margin-bottom: 12px; font-size: 15px; font-weight: 600;">' +
+                'আপনি পরীক্ষা থেকে বের হয়ে গিয়েছিলেন।</p>' +
+                '<div style="background: #fee2e2; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 2px solid #fca5a5;">' +
+                '<p style="color: #dc2626; font-weight: 800; font-size: 18px; margin: 0;">বের হওয়া: ' + state.exitCount + '/2</p>' +
+                '</div>' +
+                '<p style="color: ' + (state.exitCount === 2 ? '#dc2626' : '#6b7280') + '; font-size: 13px; margin-bottom: 20px; font-weight: ' + (state.exitCount === 2 ? '700' : '500') + ';">' +
+                (state.exitCount === 2 ? '🚨 আরেকবার বের হলে বাতিল!' : '⚠️ সতর্ক থাকুন।') + '</p>' +
+                '<button onclick="closeExitWarning()" style="background: #10b981; color: white; border: none; padding: 12px 30px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer;">' +
+                'চালিয়ে যান</button></div></div>';
             document.body.appendChild(modal);
         }
 
         function closeExitWarning() {
-            document.getElementById('exitModal')?.remove();
+            var modal = document.getElementById('exitModal');
+            if (modal) {
+                modal.parentNode.removeChild(modal);
+            }
             startTimer();
             render();
         }
 
         function resetQuiz() {
             if (state.timerInterval) clearInterval(state.timerInterval);
+            document.body.className = '';
+            hasPlayedWarning = false;
+            var submittedPhones = state.submittedPhones;
             state = {
                 view: 'start',
                 participant: { name: '', phone: '' },
                 answers: {},
                 currentQuestion: 0,
-                timeLeft: 180,
+                timeLeft: 60,
                 startTime: null,
                 timerInterval: null,
                 loading: false,
                 lastSubmission: null,
-                submittedPhones: state.submittedPhones,
+                submittedPhones: submittedPhones,
                 exitCount: 0,
-                sessionId: null
+                sessionId: null,
+                warningPlayed: false
             };
             saveState();
             render();
         }
 
         function formatTime(sec) {
-            const m = Math.floor(sec / 60);
-            const s = sec % 60;
-            return `${m}:${s.toString().padStart(2, '0')}`;
+            var m = Math.floor(sec / 60);
+            var s = sec % 60;
+            return m + ':' + (s < 10 ? '0' : '') + s;
         }
 
         function startQuiz() {
-            const name = document.getElementById('name')?.value.trim();
-            const phone = document.getElementById('phone')?.value.trim();
+            var nameInput = document.getElementById('name');
+            var phoneInput = document.getElementById('phone');
+            
+            if (!nameInput || !phoneInput) return;
+            
+            var name = nameInput.value.replace(/^\s+|\s+$/g, '');
+            var phone = phoneInput.value.replace(/^\s+|\s+$/g, '');
             
             if (!name || !phone) {
                 alert('নাম ও মোবাইল নম্বর দিন');
@@ -745,7 +765,7 @@
                 return;
             }
             
-            state.participant = { name, phone };
+            state.participant = { name: name, phone: phone };
             state.startTime = Date.now();
             state.sessionId = generateSessionId();
             state.view = 'quiz';
@@ -757,7 +777,12 @@
 
         function startTimer() {
             if (state.timerInterval) clearInterval(state.timerInterval);
-            state.timerInterval = setInterval(() => {
+            
+            if (!audioContext) {
+                initAudio();
+            }
+            
+            state.timerInterval = setInterval(function() {
                 state.timeLeft--;
                 saveState();
                 if (state.timeLeft <= 0) submitQuiz();
@@ -766,34 +791,54 @@
         }
 
         function updateTimer() {
-            const el = document.getElementById('timer');
+            var el = document.getElementById('timer');
             if (el) {
                 el.textContent = formatTime(state.timeLeft);
-                if (state.timeLeft <= 30) el.classList.add('warning');
+                el.className = state.timeLeft <= 30 ? 'timer warning' : 'timer';
+            }
+            
+            if (state.timeLeft === 30 && !hasPlayedWarning) {
+                document.body.className = 'warning-time';
+                playWarningBeep();
+                
+                setTimeout(function() {
+                    if (state.timeLeft > 0 && state.timeLeft < 30) {
+                        document.body.className = '';
+                    }
+                }, 30000);
             }
         }
 
-        async function submitQuiz() {
+        function submitQuiz() {
             if (state.timerInterval) clearInterval(state.timerInterval);
+            document.body.className = '';
+            document.body.style.background = '#0f766e';
+            document.body.style.background = 'linear-gradient(135deg, #0f766e 0%, #065f46 50%, #064e3b 100%)';
+            hasPlayedWarning = false;
             state.loading = true;
             render();
             
-            const timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
-            let correct = 0, wrong = 0;
+            var timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
+            var correct = 0;
+            var wrong = 0;
             
-            QUESTIONS.forEach(q => {
+            for (var i = 0; i < QUESTIONS.length; i++) {
+                var q = QUESTIONS[i];
                 if (state.answers[q.id] !== undefined) {
-                    if (state.answers[q.id] === q.correctAnswer) correct++;
-                    else wrong++;
+                    if (state.answers[q.id] === q.correctAnswer) {
+                        correct++;
+                    } else {
+                        wrong++;
+                    }
                 }
-            });
+            }
 
-            const submission = {
+            var submission = {
                 sessionId: state.sessionId,
                 name: state.participant.name,
                 phone: state.participant.phone,
-                correct,
-                wrong,
+                correct: correct,
+                wrong: wrong,
                 unanswered: QUESTIONS.length - correct - wrong,
                 timeTaken: formatTime(timeTaken),
                 exitCount: state.exitCount,
@@ -801,15 +846,9 @@
             };
 
             if (GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        body: JSON.stringify(submission)
-                    });
-                } catch (e) {
-                    console.error('Submit error:', e);
-                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+                xhr.send(JSON.stringify(submission));
             }
 
             state.submittedPhones[state.participant.phone] = Date.now();
@@ -845,197 +884,159 @@
         }
 
         function renderStart() {
-            return `
-                <div class="container">
-                    <div class="card">
-                        <h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>
-                        <p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>
-                        
-                        <div class="info-box">
-                            <h3>প্রতিযোগিতার বিবরণ:</h3>
-                            <ul>
-                                <li>মোট প্রশ্ন: ${QUESTIONS.length}টি MCQ</li>
-                                <li>সময়: ৩ মিনিট</li>
-                                <li>২ বারের বেশি বের হলে বাতিল</li>
-                                <li>সব প্রশ্নের উত্তর দিন</li>
-                            </ul>
-                        </div>
-
-                        <div class="warning-box">
-                            <p>⚠️ একই মোবাইল নম্বর দিয়ে শুধু একবার অংশগ্রহণ করতে পারবেন</p>
-                        </div>
-
-                        <div class="form-group">
-                            <label>👤 নাম *</label>
-                            <input type="text" id="name" placeholder="পূর্ণ নাম লিখুন">
-                        </div>
-
-                        <div class="form-group">
-                            <label>📱 মোবাইল নম্বর *</label>
-                            <input type="tel" id="phone" placeholder="01XXXXXXXXX" maxlength="11">
-                        </div>
-
-                        <button class="btn btn-primary" onclick="startQuiz()">
-                            🚀 শুরু করুন
-                        </button>
-                    </div>
-                </div>
-            `;
+            document.body.className = '';
+            var html = '<div class="container"><div class="card">' +
+                '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
+                '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
+                '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
+                '<li>মোট প্রশ্ন: ' + QUESTIONS.length + 'টি MCQ</li>' +
+                '<li>সময়: ১ মিনিট</li>' +
+                '<li>২ বারের বেশি বের হলে বাতিল</li>' +
+                '<li>সব প্রশ্নের উত্তর দিন</li>' +
+                '</ul></div>' +
+                '<div class="warning-box"><p>⚠️ একই মোবাইল নম্বর দিয়ে শুধু একবার অংশগ্রহণ করতে পারবেন</p></div>' +
+                '<div class="form-group"><label>👤 নাম *</label>' +
+                '<input type="text" id="name" placeholder="পূর্ণ নাম লিখুন"></div>' +
+                '<div class="form-group"><label>📱 মোবাইল নম্বর *</label>' +
+                '<input type="tel" id="phone" placeholder="01XXXXXXXXX" maxlength="11"></div>' +
+                '<button class="btn btn-primary" onclick="startQuiz()">🚀 শুরু করুন</button>' +
+                '</div></div>';
+            return html;
         }
 
         function renderQuiz() {
             if (state.loading) {
-                return `
-                    <div class="container">
-                        <div class="card">
-                            <div class="loading">
-                                <div class="loading-spinner"></div>
-                                <p style="margin-top:15px; font-size:16px; font-weight:600;">জমা হচ্ছে...</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                return '<div class="container"><div class="card">' +
+                    '<div class="loading"><div class="loading-spinner"></div>' +
+                    '<p style="margin-top:15px; font-size:16px; font-weight:600;">জমা হচ্ছে...</p>' +
+                    '</div></div></div>';
             }
 
-            const q = QUESTIONS[state.currentQuestion];
-            const progress = ((state.currentQuestion + 1) / QUESTIONS.length) * 100;
+            var q = QUESTIONS[state.currentQuestion];
+            var progress = ((state.currentQuestion + 1) / QUESTIONS.length) * 100;
+            
+            if (state.timeLeft <= 30) {
+                document.body.className = 'warning-time';
+            } else {
+                document.body.className = '';
+            }
 
-            const opts = q.options.map((opt, idx) => {
-                const sel = state.answers[q.id] === idx ? 'selected' : '';
-                return `
-                    <button class="option ${sel}" onclick="selectAnswer(${q.id}, ${idx})">
-                        <strong>${String.fromCharCode(65 + idx)}.</strong> ${opt}
-                    </button>
-                `;
-            }).join('');
+            var opts = '';
+            for (var i = 0; i < q.options.length; i++) {
+                var sel = state.answers[q.id] === i ? 'selected' : '';
+                opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
+                    '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + q.options[i] +
+                    '</button>';
+            }
 
-            const isLast = state.currentQuestion === QUESTIONS.length - 1;
+            var isLast = state.currentQuestion === QUESTIONS.length - 1;
+           
+            var html = '<div class="container">' +
+                '<div class="timer-box">' +
+                '<div class="timer-header">' +
+                '<div class="timer-info">📝 প্রশ্ন ' + (state.currentQuestion + 1) + '/' + QUESTIONS.length + '</div>' +
+                '<div class="' + (state.timeLeft <= 30 ? 'timer warning' : 'timer') + '">⏰ <span id="timer">' + formatTime(state.timeLeft) + '</span></div>' +
+                '</div>' +
+                '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
+                '</div>' +
+                '<div class="question-card">' +
+                '<span class="question-badge">বহুনির্বাচনী</span>' +
+                '<div class="question-text">' + q.question + '</div>' +
+                opts +
+                '</div>' +
+                  '<div class="nav-buttons">' +
+'<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>';
 
-            return `
-                <div class="container">
-                    <div class="timer-box">
-                        <div class="timer-header">
-                            <div class="timer-info">
-                                <span>📝 ${state.currentQuestion + 1}/${QUESTIONS.length}</span>
-                                <span>🚫 ${state.exitCount}/2</span>
-                            </div>
-                            <div class="timer">
-                                <span>⏰</span>
-                                <span id="timer">${formatTime(state.timeLeft)}</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width:${progress}%"></div>
-                        </div>
-                    </div>
+if (isLast) {
+    html += '<button class="btn btn-danger" onclick="submitQuiz()">✓ জমা দিন</button>';
+} else {
+    html += '<span style="flex: 1;"></span>';
+}
 
-                    <div class="question-card">
-                        <span class="question-badge">বহুনির্বাচনী</span>
-                        <div class="question-text">${q.question}</div>
-                        ${opts}
-                    </div>
-
-                    <div class="nav-buttons">
-                        <button class="btn btn-secondary" onclick="prevQuestion()" 
-                                ${state.currentQuestion === 0 ? 'disabled' : ''}>
-                            ← পূর্ববর্তী
-                        </button>
-                        ${!isLast ? `
-                        <button class="btn btn-secondary" onclick="nextQuestion()">
-                            পরবর্তী →
-                        </button>
-                        ` : ''}
-                        ${isLast ? `
-                        <button class="btn btn-danger center" onclick="submitQuiz()">
-                            ✓ জমা দিন
-                        </button>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
+html += '<button class="btn btn-secondary" onclick="nextQuestion()" ' + (isLast ? 'disabled' : '') + '>পরবর্তী <span style="font-size: 20px;">→</span></button>';
+html += '</div></div>';
+            return html;
         }
 
         function renderSubmitted() {
-            return `
-                <div class="container">
-                    <div class="card">
-                        <div class="success-icon">✅</div>
-                        <div class="success-message">
-                            <h2>জমা সফল হয়েছে!</h2>
-                            <p style="font-size:17px; margin:15px 0;">${state.participant.name}, আপনার উত্তরপত্র সফলভাবে জমা হয়েছে।</p>
-                            
-                            <div class="info-box" style="margin-top:20px;">
-                                <h3>📊 আপনার ফলাফল:</h3>
-                                <ul>
-                                    <li>সঠিক উত্তর: <strong>${state.lastSubmission.correct}টি</strong></li>
-                                    <li>ভুল উত্তর: <strong>${state.lastSubmission.wrong}টি</strong></li>
-                                    <li>উত্তর দেননি: <strong>${state.lastSubmission.unanswered}টি</strong></li>
-                                    <li>সময় লেগেছে: <strong>${state.lastSubmission.timeTaken}</strong></li>
-                                    <li>বেরিয়েছেন: <strong>${state.lastSubmission.exitCount} বার</strong></li>
-                                </ul>
-                            </div>
-
-                            <p style="color:#6b7280; margin-top:20px; font-size: 14px;">
-                                আল্লাহ আপনাকে উত্তম প্রতিদান দিন। 🤲
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            `;
+            return '<div class="container"><div class="card">' +
+                '<div class="success-icon">✅</div>' +
+                '<div class="success-message">' +
+                '<h2>জমা সফল হয়েছে!</h2>' +
+                '<p style="font-size:17px; margin:15px 0;">' + state.participant.name + ', আপনার উত্তরপত্র সফলভাবে জমা হয়েছে।</p>' +
+                '<div class="info-box" style="margin-top:20px;">' +
+                '<h3>📊 আপনার ফলাফল:</h3><ul>' +
+                '<li>সঠিক উত্তর: <strong>' + state.lastSubmission.correct + 'টি</strong></li>' +
+                '<li>ভুল উত্তর: <strong>' + state.lastSubmission.wrong + 'টি</strong></li>' +
+                '<li>উত্তর দেননি: <strong>' + state.lastSubmission.unanswered + 'টি</strong></li>' +
+                '<li>সময় লেগেছে: <strong>' + state.lastSubmission.timeTaken + '</strong></li>' +
+                '<li>বেরিয়েছেন: <strong>' + state.lastSubmission.exitCount + ' বার</strong></li>' +
+                '</ul></div>' +
+                '<p style="color:#6b7280; margin-top:20px; font-size: 14px;">আল্লাহ আপনাকে উত্তম প্রতিদান দিন। 🤲</p>' +
+                '</div></div></div>';
         }
 
         function render() {
-            const app = document.getElementById('app');
-            if (state.view === 'start') app.innerHTML = renderStart();
-            else if (state.view === 'quiz') app.innerHTML = renderQuiz();
-            else if (state.view === 'submitted') app.innerHTML = renderSubmitted();
+            var app = document.getElementById('app');
+            if (state.view === 'start') {
+                app.innerHTML = renderStart();
+            } else if (state.view === 'quiz') {
+                app.innerHTML = renderQuiz();
+            } else if (state.view === 'submitted') {
+                app.innerHTML = renderSubmitted();
+            }
         }
 
-        let hiddenTime = null;
+        var hiddenTime = null;
 
-        window.addEventListener('beforeunload', (e) => {
+        window.onbeforeunload = function(e) {
             if (state.view === 'quiz' && state.sessionId) {
-                e.preventDefault();
-                e.returnValue = '';
                 saveState();
+                e = e || window.event;
+                if (e) {
+                    e.returnValue = '';
+                }
+                return '';
             }
-        });
+        };
 
-        document.addEventListener('visibilitychange', () => {
-            if (state.view !== 'quiz' || !state.sessionId) return;
+        if (document.addEventListener) {
+            document.addEventListener('visibilitychange', function() {
+                if (state.view !== 'quiz' || !state.sessionId) return;
 
-            if (document.hidden) {
-                hiddenTime = Date.now();
-                saveState();
-            } else {
-                if (hiddenTime) {
-                    const awayTime = Math.floor((Date.now() - hiddenTime) / 1000);
-                    
-                    if (awayTime >= 3) {
-                        state.exitCount++;
+                if (document.hidden) {
+                    hiddenTime = Date.now();
+                    saveState();
+                } else {
+                    if (hiddenTime) {
+                        var awayTime = Math.floor((Date.now() - hiddenTime) / 1000);
                         
-                        if (state.exitCount > 2) {
-                            if (state.timerInterval) clearInterval(state.timerInterval);
-                            alert('⚠️ আপনি ২ বারের বেশি পরীক্ষা থেকে বের হয়ে গেছেন!');
-                            resetQuiz();
+                        if (awayTime >= 3) {
+                            state.exitCount++;
+                            
+                            if (state.exitCount > 2) {
+                                if (state.timerInterval) clearInterval(state.timerInterval);
+                                alert('⚠️ আপনি ২ বারের বেশি পরীক্ষা থেকে বের হয়ে গেছেন!');
+                                resetQuiz();
+                                return;
+                            }
+                            
+                            saveState();
+                            showExitWarning();
                             return;
                         }
                         
-                        saveState();
-                        showExitWarning();
-                        return;
+                        hiddenTime = null;
                     }
                     
-                    hiddenTime = null;
+                    if (state.timerInterval) {
+                        clearInterval(state.timerInterval);
+                    }
+                    startTimer();
+                    render();
                 }
-                
-                if (state.timerInterval) {
-                    clearInterval(state.timerInterval);
-                }
-                startTimer();
-                render();
-            }
-        });
+            });
+        }
 
         window.onload = function() {
             loadState();
