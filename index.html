@@ -480,7 +480,18 @@
     <div id="app"></div>
 
     <script>
-        var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdKCoh8WKK9shvA2O9BoZ-30S-8EL7RN3MSACnP2G_CRTo5N8VIOgQO8tcaWSUQZ2FFw/exec';
+	
+	function toBengaliNumber(num) {
+    var bengali = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return num.toString().split('').map(function(d) { return bengali[d]; }).join('');
+}
+
+function getBengaliOption(index) {
+    var options = ['ক', 'খ', 'গ', 'ঘ'];
+    return options[index];
+}
+	
+        var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuUnBJoee6MLvWDa_LojrfUoEyAS6lf6YJhUYgr8SF55-8JmfaBnE4FILsQAfg8TGy/exec';
         
         var QUESTIONS = [
             {
@@ -889,7 +900,7 @@
                 '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
                 '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
                 '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
-                '<li>মোট প্রশ্ন: ' + QUESTIONS.length + 'টি MCQ</li>' +
+                '<li>মোট প্রশ্ন: ' + '৯' + 'টি MCQ</li>' +
                 '<li>সময়: ১ মিনিট</li>' +
                 '<li>২ বারের বেশি বের হলে বাতিল</li>' +
                 '<li>সব প্রশ্নের উত্তর দিন</li>' +
@@ -925,8 +936,8 @@
             for (var i = 0; i < q.options.length; i++) {
                 var sel = state.answers[q.id] === i ? 'selected' : '';
                 opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
-                    '<strong>' + String.fromCharCode(65 + i) + '.</strong> ' + q.options[i] +
-                    '</button>';
+    '<strong>' + getBengaliOption(i) + '.</strong> ' + q.options[i] +
+    '</button>';
             }
 
             var isLast = state.currentQuestion === QUESTIONS.length - 1;
@@ -934,7 +945,7 @@
             var html = '<div class="container">' +
                 '<div class="timer-box">' +
                 '<div class="timer-header">' +
-                '<div class="timer-info">📝 প্রশ্ন ' + (state.currentQuestion + 1) + '/' + QUESTIONS.length + '</div>' +
+               '<div class="timer-info">📝 প্রশ্ন ' + toBengaliNumber(state.currentQuestion + 1) + '/' + toBengaliNumber(QUESTIONS.length) + '</div>' +
                 '<div class="' + (state.timeLeft <= 30 ? 'timer warning' : 'timer') + '">⏰ <span id="timer">' + formatTime(state.timeLeft) + '</span></div>' +
                 '</div>' +
                 '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
