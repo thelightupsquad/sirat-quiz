@@ -336,7 +336,30 @@
             border-color: #10b981;
             background: #d1fae5;
         }
-        
+		
+        .short-answer-input {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    background: white;
+    text-align: center;
+    font-weight: 600;
+}
+
+.short-answer-input:focus {
+    outline: none;
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.short-answer-input.filled {
+    border-color: #10b981;
+    background: #d1fae5;
+}
+		
         .nav-buttons {
     display: flex;
     justify-content: space-between;
@@ -494,62 +517,92 @@ function getBengaliOption(index) {
         var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGG8_nTYLL4yd8SODuDCJthZARwoRqcAANAK832sypU5k-smKdOgMJq-biafvPy8OZ/exec';
         
         var QUESTIONS = [
-            {
-                id: 1,
-                question: 'রাসূলুল্লাহ ﷺ কোন সালে জন্মগ্রহণ করেন?',
-                options: ['৫৭০ খ্রিস্টাব্দ', '৫৬০ খ্রিস্টাব্দ', '৫৮০ খ্রিস্টাব্দ', '৫৯০ খ্রিস্টাব্দ'],
-                correctAnswer: 0
-            },
-            {
-                id: 2,
-                question: 'রাসূলুল্লাহ ﷺ এর পিতার নাম কী?',
-                options: ['আবু তালিব', 'আবদুল্লাহ', 'আবদুল মুত্তালিব', 'আবু বকর'],
-                correctAnswer: 1
-            },
-            {
-                id: 3,
-                question: 'রাসূলুল্লাহ ﷺ এর দুধ মাতার নাম কী?',
-                options: ['আমিনা', 'হালিমা', 'খাদিজা', 'আয়িশা'],
-                correctAnswer: 1
-            },
-            {
-                id: 4,
-                question: 'প্রথম কোন মহিলা ইসলাম গ্রহণ করেন?',
-                options: ['আয়িশা রা.', 'ফাতিমা রা.', 'খাদিজা রা.', 'হাফসা রা.'],
-                correctAnswer: 2
-            },
-            {
-                id: 5,
-                question: 'হিজরতের সময় রাসূলুল্লাহ ﷺ এর সাথী কে ছিলেন?',
-                options: ['উমর রা.', 'আবু বকর রা.', 'উসমান রা.', 'আলী রা.'],
-                correctAnswer: 1
-            },
-            {
-                id: 6,
-                question: 'বদর যুদ্ধ কোন সালে সংঘটিত হয়?',
-                options: ['২ হিজরী', '৩ হিজরী', '৪ হিজরী', '৫ হিজরী'],
-                correctAnswer: 0
-            },
-            {
-                id: 7,
-                question: 'উহুদ যুদ্ধে রাসূলুল্লাহ ﷺ এর কয়টি দাঁত শহীদ হয়?',
-                options: ['১টি', '২টি', '৩টি', '৪টি'],
-                correctAnswer: 1
-            },
-            {
-                id: 8,
-                question: 'মক্কা বিজয় কোন সালে হয়?',
-                options: ['৬ হিজরী', '৭ হিজরী', '৮ হিজরী', '৯ হিজরী'],
-                correctAnswer: 2
-            },
-			{
-                id: 9,
-                question: 'পিতার দিক থেকে নবিজির বংশধারায় "মুদরিকা" -এর পুত্র কে?',
-                options: ['মুদর', 'রূহ', 'খুযাইমাহ', 'মালিক'],
-                correctAnswer: 2
-            }
-        ];
-
+    // MCQ প্রশ্নগুলো
+    {
+        id: 1,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন সালে জন্মগ্রহণ করেন?',
+        options: ['৫৭০ খ্রিস্টাব্দ', '৫৬০ খ্রিস্টাব্দ', '৫৮০ খ্রিস্টাব্দ', '৫৯০ খ্রিস্টাব্দ'],
+        correctAnswer: 0
+    },
+    {
+        id: 2,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর পিতার নাম কী?',
+        options: ['আবু তালিব', 'আবদুল্লাহ', 'আবদুল মুত্তালিব', 'আবু বকর'],
+        correctAnswer: 1
+    },
+    {
+        id: 3,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর দুধ মাতার নাম কী?',
+        options: ['আমিনা', 'হালিমা', 'খাদিজা', 'আয়িশা'],
+        correctAnswer: 1
+    },
+    {
+        id: 4,
+        type: 'mcq',
+        question: 'প্রথম কোন মহিলা ইসলাম গ্রহণ করেন?',
+        options: ['আয়িশা রা.', 'ফাতিমা রা.', 'খাদিজা রা.', 'হাফসা রা.'],
+        correctAnswer: 2
+    },
+    {
+        id: 5,
+        type: 'mcq',
+        question: 'হিজরতের সময় রাসূলুল্লাহ ﷺ এর সাথী কে ছিলেন?',
+        options: ['উমর রা.', 'আবু বকর রা.', 'উসমান রা.', 'আলী রা.'],
+        correctAnswer: 1
+    },
+    {
+        id: 6,
+        type: 'mcq',
+        question: 'বদর যুদ্ধ কোন সালে সংঘটিত হয়?',
+        options: ['২ হিজরী', '৩ হিজরী', '৪ হিজরী', '৫ হিজরী'],
+        correctAnswer: 0
+    },
+    {
+        id: 7,
+        type: 'mcq',
+        question: 'উহুদ যুদ্ধে রাসূলুল্লাহ ﷺ এর কয়টি দাঁত শহীদ হয়?',
+        options: ['১টি', '২টি', '৩টি', '৪টি'],
+        correctAnswer: 1
+    },
+    {
+        id: 8,
+        type: 'mcq',
+        question: 'মক্কা বিজয় কোন সালে হয়?',
+        options: ['৬ হিজরী', '৭ হিজরী', '৮ হিজরী', '৯ হিজরী'],
+        correctAnswer: 2
+    },
+    {
+        id: 9,
+        type: 'mcq',
+        question: 'পিতার দিক থেকে নবিজির বংশধারায় "মুদরিকা" -এর পুত্র কে?',
+        options: ['মুদর', 'রূহ', 'খুযাইমাহ', 'মালিক'],
+        correctAnswer: 2
+    },
+    
+    // সংক্ষিপ্ত প্রশ্নগুলো 
+    {
+        id: 10,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর মাতার নাম কী?',
+        correctAnswer: ['আমিনা', 'amina']
+    },
+    {
+        id: 11,
+        type: 'short',
+        question: 'প্রথম ওহী কোন সূরার আয়াত ছিল?',
+        correctAnswer: ['আলাক', 'alaq', 'alak']
+    },
+    {
+        id: 12,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে নবুওয়াত লাভ করেন? (শুধু সংখ্যা)',
+        correctAnswer: ['৪০', '40', 'চল্লিশ']
+    }
+];
+	
         var state = {
             view: 'start',
             participant: { name: '', phone: '' },
@@ -762,17 +815,17 @@ function getBengaliOption(index) {
             var phone = phoneInput.value.replace(/^\s+|\s+$/g, '');
             
             if (!name || !phone) {
-                alert('নাম ও মোবাইল নম্বর দিন');
+                alert('নাম ও মোবাইল নাম্বার দিন');
                 return;
             }
 
             if (!/^01\d{9}$/.test(phone)) {
-                alert('সঠিক মোবাইল নম্বর দিন');
+                alert('সঠিক মোবাইল নাম্বার দিন');
                 return;
             }
 
             if (state.submittedPhones[phone]) {
-                alert('এই নম্বর দিয়ে ইতিমধ্যে দেওয়া হয়েছে!');
+                alert('এই নাম্বার দিয়ে ইতিমধ্যে দেওয়া হয়েছে!');
                 return;
             }
             
@@ -833,16 +886,40 @@ function getBengaliOption(index) {
             var correct = 0;
             var wrong = 0;
             
-            for (var i = 0; i < QUESTIONS.length; i++) {
-                var q = QUESTIONS[i];
-                if (state.answers[q.id] !== undefined) {
-                    if (state.answers[q.id] === q.correctAnswer) {
-                        correct++;
-                    } else {
-                        wrong++;
-                    }
+            var timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
+var correct = 0;
+var wrong = 0;
+
+for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    if (state.answers[q.id] !== undefined) {
+        if (q.type === 'mcq') {
+            // MCQ চেক
+            if (state.answers[q.id] === q.correctAnswer) {
+                correct++;
+            } else {
+                wrong++;
+            }
+        } else if (q.type === 'short') {
+            // Short answer চেক
+            var userAnswer = state.answers[q.id].toLowerCase().trim();
+            var isCorrect = false;
+            
+            for (var j = 0; j < q.correctAnswer.length; j++) {
+                if (userAnswer === q.correctAnswer[j].toLowerCase().trim()) {
+                    isCorrect = true;
+                    break;
                 }
             }
+            
+            if (isCorrect) {
+                correct++;
+            } else {
+                wrong++;
+            }
+        }
+    }
+}
 
             var submission = {
                 sessionId: state.sessionId,
@@ -872,11 +949,20 @@ function getBengaliOption(index) {
             render();
         }
 
-        function selectAnswer(qId, idx) {
-            state.answers[qId] = idx;
-            saveState();
-            render();
-        }
+     function selectAnswer(qId, idx) {
+    state.answers[qId] = idx;
+    saveState();
+    render();
+}
+
+function selectShortAnswer(qId) {
+    var input = document.getElementById('short-input-' + qId);
+    if (input) {
+        state.answers[qId] = input.value.trim();
+        saveState();
+        // render() কল করবেন না - শুধু state সেভ করুন
+    }
+}
 
         function nextQuestion() {
             if (state.currentQuestion < QUESTIONS.length - 1) {
@@ -900,7 +986,7 @@ function getBengaliOption(index) {
                 '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
                 '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
                 '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
-                '<li>মোট প্রশ্ন: ' + toBengaliNumber(QUESTIONS.length) + 'টি MCQ</li>' +
+                '<li>মোট প্রশ্ন: ' + toBengaliNumber(QUESTIONS.length) + 'টি MCQ+Short Question</li>' +
                 '<li>সময়: ১ মিনিট</li>' +
                 '<li>২ বারের বেশি বের হলে নতুন করে পরীক্ষা দিতে হবে</li>' +
                 '<li>সব প্রশ্নের উত্তর দিন</li>' +
@@ -908,7 +994,7 @@ function getBengaliOption(index) {
                 '<div class="warning-box"><p>⚠️ আপনার রেজিস্ট্রেশন করা মোবাইল নাম্বার ব্যাবহার করুন</p></div>' +
                 '<div class="form-group"><label>👤 নাম* (বাংলা/English)</label>' +
                 '<input type="text" id="name" placeholder="পূর্ণ নাম লিখুন" ></div>' +
-                '<div class="form-group"><label>📱 মোবাইল নম্বর* (English)</label>' +
+                '<div class="form-group"><label>📱 মোবাইল নাম্বার* (English)</label>' +
                 '<input type="tel" id="phone" placeholder="01XXXXXXXXX"  maxlength="11"></div>' +
                 '<button class="btn btn-primary" onclick="startQuiz()">বিসমিল্লাহির রাহমানির রাহীম</button>' +
                 '</div></div>';
@@ -931,14 +1017,28 @@ function getBengaliOption(index) {
             } else {
                 document.body.className = '';
             }
+			
+			var opts = '';
 
-            var opts = '';
-            for (var i = 0; i < q.options.length; i++) {
-                var sel = state.answers[q.id] === i ? 'selected' : '';
-                opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
-    '<strong>' + getBengaliOption(i) + '.</strong> ' + q.options[i] +
-    '</button>';
-            }
+if (q.type === 'mcq') {
+    // MCQ অপশন
+    for (var i = 0; i < q.options.length; i++) {
+        var sel = state.answers[q.id] === i ? 'selected' : '';
+        opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
+            '<strong>' + getBengaliOption(i) + '.</strong> ' + q.options[i] +
+            '</button>';
+    }
+} else if (q.type === 'short') {
+    // Short answer input
+    var currentAnswer = state.answers[q.id] || '';
+    var filledClass = currentAnswer ? 'filled' : '';
+    opts = '<input type="text" ' +
+        'id="short-input-' + q.id + '" ' +
+        'class="short-answer-input ' + filledClass + '" ' +
+        'placeholder="এখানে উত্তর লিখুন" ' +
+        'value="' + currentAnswer + '" ' +
+        'oninput="selectShortAnswer(' + q.id + ')">';
+}
 
             var isLast = state.currentQuestion === QUESTIONS.length - 1;
            
@@ -951,7 +1051,7 @@ function getBengaliOption(index) {
                 '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
                 '</div>' +
                 '<div class="question-card">' +
-                '<span class="question-badge">বহুনির্বাচনী</span>' +
+                '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'সংক্ষিপ্ত') + '</span>' +
                 '<div class="question-text">' + q.question + '</div>' +
                 opts +
                 '</div>' +
@@ -1057,4 +1157,3 @@ html += '</div></div>';
     </script>
 </body>
 </html>
-
