@@ -582,7 +582,7 @@ function getBengaliOption(index) {
         correctAnswer: 2
     },
     
-    // সংক্ষিপ্ত প্রশ্নগুলো 
+    // অতি সংক্ষিপ্ত প্রশ্নগুলো 
     {
         id: 10,
         type: 'short',
@@ -960,7 +960,6 @@ function selectShortAnswer(qId) {
     if (input) {
         state.answers[qId] = input.value.trim();
         saveState();
-        // render() কল করবেন না - শুধু state সেভ করুন
     }
 }
 
@@ -986,7 +985,7 @@ function selectShortAnswer(qId) {
                 '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
                 '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
                 '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
-                '<li>মোট প্রশ্ন: ' + toBengaliNumber(QUESTIONS.length) + 'টি MCQ+Short Question</li>' +
+                '<li>মোট প্রশ্ন: ' + toBengaliNumber(QUESTIONS.length) + 'টি (বহুনির্বাচনী + অতি সংক্ষিপ্ত)</li>' +
                 '<li>সময়: ১ মিনিট</li>' +
                 '<li>২ বারের বেশি বের হলে নতুন করে পরীক্ষা দিতে হবে</li>' +
                 '<li>সব প্রশ্নের উত্তর দিন</li>' +
@@ -1051,7 +1050,7 @@ if (q.type === 'mcq') {
                 '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
                 '</div>' +
                 '<div class="question-card">' +
-                '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'সংক্ষিপ্ত') + '</span>' +
+                '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'অতি সংক্ষিপ্ত') + '</span>' +
                 '<div class="question-text">' + q.question + '</div>' +
                 opts +
                 '</div>' +
