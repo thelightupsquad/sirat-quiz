@@ -1141,7 +1141,21 @@ function getBengaliOption(index) {
                 alert('এই নম্বর দিয়ে ইতিমধ্যে দেওয়া হয়েছে!');
                 return;
             }
-            
+
+        // Fullscreen request - এই অংশটা add করুন
+    try {
+        var elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    } catch (e) {
+        console.log('Fullscreen not supported');
+    }
+			
             state.participant = { name: name, phone: phone };
             state.startTime = Date.now();
             state.sessionId = generateSessionId();
@@ -1202,6 +1216,17 @@ if (state.timeLeft === halfTime && !state.halfTimeShown) {
 }
 
         function submitQuiz() {
+			try {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+    } catch (e) {
+        console.log('Exit fullscreen error');
+    }
             if (state.timerInterval) clearInterval(state.timerInterval);
             document.body.className = '';
             document.body.style.background = '#0f766e';
@@ -1701,6 +1726,7 @@ function handleEnterKey(event, qId) {
     </script>
 </body>
 </html>
+
 
 
 
