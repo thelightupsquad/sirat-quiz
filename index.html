@@ -289,7 +289,11 @@
 	max-width: 884px;
     margin: 0 auto;
 }
-     
+
+      .quiz-content-wrapper {
+    padding-top: 70px;  /* Timer box এর জন্য space */
+}
+		
         .timer-header {
             display: flex;
             justify-content: space-between;
@@ -330,7 +334,7 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-			margin-top: 28px;
+			margin-top: 12px;
             margin-bottom: 12px;       
             border: 2px solid #f3f4f6;
             text-align: center;
@@ -502,6 +506,11 @@
         }
 
         @media (max-width: 480px) {
+        
+			.quiz-content-wrapper {
+        padding-top: 60px;
+    }
+			
             body {
                 padding: 6px;
             }
@@ -515,10 +524,10 @@
             }
             
             .timer-box {
-        padding: 8px 12px 8px 12px;
-        margin-bottom: 12px;  /* Space before question card */
+        padding: 8px 12px;
         top: 6px;
-        border-radius: 10px;
+        left: 6px;
+        right: 6px;
     }
     
     .timer-header {
@@ -1367,13 +1376,17 @@ function handleEnterKey(event, qId) {
                 '<div class="' + (state.timeLeft <= 30 ? 'timer warning' : 'timer') + '">⏰ <span id="timer">' + formatTime(state.timeLeft) + '</span></div>' +
                 '</div>' +
                 '</div>' +
+				'<div class="quiz-content-wrapper">' +  // এই wrapper add করুন
                 '<div class="question-card">' +
                 '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'অতি সংক্ষিপ্ত') + '</span>' +
                 '<div class="question-text">' + q.question + '</div>' +
                 opts +
                 '</div>' +
                 '<div class="nav-buttons">' +
-                '<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>';
+                '<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>'+
+			    '</div>' +
+                '</div>' +  // wrapper close
+                '</div>';
 
             if (isLast) {
                 html += '<button class="btn btn-danger" onclick="submitQuiz()">✓ জমা দিন</button>';
@@ -1691,3 +1704,4 @@ function handleEnterKey(event, qId) {
     </script>
 </body>
 </html>
+
