@@ -271,12 +271,10 @@
             box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
         }
         
-        .timer-box {
+       .timer-box {
     background: rgba(255, 255, 255, 0.99);
     border-radius: 12px;
-    padding: 10px 16px 10px 16px;
-	margin-top: 10px;		
-    margin-bottom: 0px;  /* This creates space between timer and question */
+    padding: 12px 16px;
     border: 2px solid rgba(186, 230, 253, 0.3);
     position: fixed;
     top: 8px;
@@ -286,12 +284,13 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-	max-width: 884px;
-    margin: 0 auto;
+    max-width: 884px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
       .quiz-content-wrapper {
-    padding-top: 70px;  /* Timer box এর জন্য space */
+    padding-top: 85px;  /* Timer box এর জন্য space */
 }
 		
         .timer-header {
@@ -505,12 +504,8 @@
             margin: 0 auto;
         }
 
-        @media (max-width: 480px) {
-        
-			.quiz-content-wrapper {
-        padding-top: 60px;
-    }
-			
+       @media (max-width: 480px) {
+		   
             body {
                 padding: 6px;
             }
@@ -522,7 +517,10 @@
             .card {
                 padding: 16px;
             }
-            
+
+		   .quiz-content-wrapper {
+        padding-top: 75px;  /* Mobile এ কম space */
+    }    
             .timer-box {
         padding: 8px 12px;
         top: 6px;
@@ -1703,5 +1701,6 @@ function handleEnterKey(event, qId) {
     </script>
 </body>
 </html>
+
 
 
