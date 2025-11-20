@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>সীরাতুন নবী ﷺ প্রতিযোগিতা</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -79,7 +81,7 @@
         
         h1 {
             color: #065f46;
-            font-size: 1.8em;
+            font-size: 2em;
             text-align: center;
             margin-bottom: 8px;
             font-weight: 800;
@@ -90,7 +92,7 @@
             color: #6b7280;
             text-align: center;
             margin-bottom: 16px;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
         }
         
@@ -105,7 +107,7 @@
         .info-box h3 {
             color: #065f46;
             margin-bottom: 10px;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
         }
         
@@ -119,7 +121,7 @@
             margin: 6px 0;
             padding-left: 22px;
             position: relative;
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.4;
         }
 
@@ -144,7 +146,7 @@
             color: #78350f;
             font-weight: 600;
             margin: 0;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.4;
         }
         
@@ -152,12 +154,54 @@
             margin-bottom: 14px;
         }
         
+		.time-banner {
+    position: fixed;
+    top: 20px;
+    left: 5%;
+    right: 5%;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #78350f;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.5);
+    z-index: 9999;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    animation: slideDown 0.5s ease, fadeOut 0.5s ease 4.5s;
+    line-height: 1.4;
+}
+
+.time-banner.warning {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    animation: slideDown 0.5s ease, pulse 1s infinite, fadeOut 0.5s ease 4.5s;
+}
+
+@keyframes slideDown {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        top: -100px;
+    }
+}
+		
         label {
             display: block;
             color: #1f2937;
             font-weight: 700;
             margin-bottom: 6px;
-            font-size: 13px;
+            font-size: 14px;
         }
         
         input {
@@ -165,7 +209,7 @@
             padding: 12px 14px;
             border: 2px solid #e5e7eb;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 15px;
             background: white;
         }
         
@@ -201,56 +245,68 @@
         }
         
         .btn-secondary {
-    background: #e5e7eb;
-    color: #374151;
-    padding: 12px 14px;
-    width: auto;
-    font-size: 16px;  /* 13px থেকে 16px */
-    display: inline-block;
-    font-weight: 700;
-}
+            background: #e5e7eb;
+            color: #374151;
+            padding: 12px 14px;
+            width: auto;
+            font-size: 16px;
+            display: inline-block;
+            font-weight: 700;
+        }
         
         .btn-secondary:active {
             background: #d1d5db;
         }
         
         .btn-danger {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: #78350f;
-    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
-    font-size: 16px;
-    font-weight: 800;
-}
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+            font-size: 16px;
+            font-weight: 800;
+        }
 
-.btn-danger:active {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
-}
-        
-        .timer-box {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            padding: 8px 12px;  
-            margin-bottom: 12px;
-            border: 2px solid rgba(16, 185, 129, 0.2);
+        .btn-danger:active {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
         }
         
+        .timer-box {
+    background: rgba(255, 255, 255, 0.99);
+    border-radius: 12px;
+    padding: 10px 16px 10px 16px;
+	margin-top: 10px;		
+    margin-bottom: 0px;  /* This creates space between timer and question */
+    border: 2px solid rgba(186, 230, 253, 0.3);
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+	max-width: 884px;
+    margin: 0 auto;
+}
+     
         .timer-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 0px;
+			gap: 10px;
         }
         
         .timer-info {
             color: #065f46;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 20px;
         }
         
         .timer {
             color: #ef4444;
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 900 !important;
             font-family: 'Courier New', monospace;
         }
@@ -270,25 +326,12 @@
             50% { opacity: 0.6; }
         }
         
-        .progress-bar {
-            width: 100%;
-            height: 5px;
-            background: #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: #10b981;
-            border-radius: 10px;
-        }
-        
         .question-card {
             background: white;
             border-radius: 12px;
             padding: 18px;
-            margin-bottom: 25px;
+			margin-top: 28px;
+            margin-bottom: 12px;       
             border: 2px solid #f3f4f6;
             text-align: center;
         }
@@ -301,12 +344,12 @@
             border-radius: 14px;
             font-size: 10px;
             font-weight: 700;
-            margin-bottom: 250px;
+            margin-bottom: 8px;
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
         
         .question-text {
-            font-size: 15px;
+            font-size: 18px;
             font-weight: 700;
             color: #1f2937;
             margin-bottom: 14px;
@@ -322,7 +365,7 @@
             background: white;
             text-align: left;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 500;
             display: block;
         }
@@ -338,46 +381,46 @@
         }
 		
         .short-answer-input {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 10px 0;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 15px;
-    background: white;
-    text-align: center;
-    font-weight: 600;
-}
+            width: 100%;
+            padding: 12px 14px;
+            margin: 10px 0;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            background: white;
+            text-align: center;
+            font-weight: 600;
+        }
 
-.short-answer-input:focus {
-    outline: none;
-    border-color: #10b981;
-    background: #f0fdf4;
-}
+        .short-answer-input:focus {
+            outline: none;
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
 
-.short-answer-input.filled {
-    border-color: #10b981;
-    background: #d1fae5;
-}
+        .short-answer-input.filled {
+            border-color: #10b981;
+            background: #d1fae5;
+        }
 		
         .nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    gap: 10px;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            gap: 10px;
+        }
 
-.nav-buttons .btn-secondary {
-    margin: 0;
-    flex: 0 0 auto;  
-    min-width: 80px;  
-}
+        .nav-buttons .btn-secondary {
+            margin: 0;
+            flex: 0 0 auto;  
+            min-width: 80px;  
+        }
 
-.nav-buttons .btn-danger {
-    margin: 0;
-    flex: 1;
-}
+        .nav-buttons .btn-danger {
+            margin: 0;
+            flex: 1;
+        }
         
         .success-icon {
             text-align: center;
@@ -472,17 +515,30 @@
             }
             
             .timer-box {
-                padding: 10px;
-                margin-bottom: 12px;
-            }
-            
-            .timer {
-                font-size: 20px;
-            }
-            
-            .progress-bar {
-                height: 6px;
-            }
+        padding: 8px 12px 8px 12px;
+        margin-bottom: 12px;  /* Space before question card */
+        top: 6px;
+        border-radius: 10px;
+    }
+    
+    .timer-header {
+        margin-bottom: 0;
+    }
+    
+    .timer-info {
+        font-size: 16px;
+        line-height: 1.2;
+    }
+    
+    .timer {
+        font-size: 18px;
+        line-height: 1.2;
+    }
+    
+    .question-card {
+        padding: 18px;
+        margin-bottom: 12px;    
+    }
             
             .question-text {
                 font-size: 18px;
@@ -514,101 +570,446 @@ function getBengaliOption(index) {
     return options[index];
 }
 	
-        var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGG8_nTYLL4yd8SODuDCJthZARwoRqcAANAK832sypU5k-smKdOgMJq-biafvPy8OZ/exec';
-        
+        var GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwJhsTHPfQZEQOE4BQNnPv_SqF4NLHZ0pANIgFixMMkbJQF4APDHBYZf0K7-VrRcKf/exec';
+                                 
         var QUESTIONS = [
-    // MCQ প্রশ্নগুলো
+    // MCQ Questions (50)
     {
         id: 1,
         type: 'mcq',
         question: 'রাসূলুল্লাহ ﷺ কোন সালে জন্মগ্রহণ করেন?',
-        options: ['৫৭০ খ্রিস্টাব্দ', '৫৬০ খ্রিস্টাব্দ', '৫৮০ খ্রিস্টাব্দ', '৫৯০ খ্রিস্টাব্দ'],
-        correctAnswer: 0
+        options: ['৫৭০ খ্রিস্টাব্দ', '৫৬০ খ্রিস্টাব্দ', '৫৮০ খ্রিস্টাব্দ', '৫৯০ খ্রিস্টাব্দ']
     },
     {
         id: 2,
         type: 'mcq',
         question: 'রাসূলুল্লাহ ﷺ এর পিতার নাম কী?',
-        options: ['আবু তালিব', 'আবদুল্লাহ', 'আবদুল মুত্তালিব', 'আবু বকর'],
-        correctAnswer: 1
+        options: ['আবু তালিব', 'আবদুল্লাহ', 'আবদুল মুত্তালিব', 'আবু বকর']
     },
     {
         id: 3,
         type: 'mcq',
         question: 'রাসূলুল্লাহ ﷺ এর দুধ মাতার নাম কী?',
-        options: ['আমিনা', 'হালিমা', 'খাদিজা', 'আয়িশা'],
-        correctAnswer: 1
+        options: ['আমিনা', 'হালিমা', 'খাদিজা', 'আয়িশা']
     },
     {
         id: 4,
         type: 'mcq',
         question: 'প্রথম কোন মহিলা ইসলাম গ্রহণ করেন?',
-        options: ['আয়িশা রা.', 'ফাতিমা রা.', 'খাদিজা রা.', 'হাফসা রা.'],
-        correctAnswer: 2
+        options: ['আয়িশা রা.', 'ফাতিমা রা.', 'খাদিজা রা.', 'হাফসা রা.']
     },
     {
         id: 5,
         type: 'mcq',
         question: 'হিজরতের সময় রাসূলুল্লাহ ﷺ এর সাথী কে ছিলেন?',
-        options: ['উমর রা.', 'আবু বকর রা.', 'উসমান রা.', 'আলী রা.'],
-        correctAnswer: 1
+        options: ['উমর রা.', 'আবু বকর রা.', 'উসমান রা.', 'আলী রা.']
     },
     {
         id: 6,
         type: 'mcq',
         question: 'বদর যুদ্ধ কোন সালে সংঘটিত হয়?',
-        options: ['২ হিজরী', '৩ হিজরী', '৪ হিজরী', '৫ হিজরী'],
-        correctAnswer: 0
+        options: ['২ হিজরী', '৩ হিজরী', '৪ হিজরী', '৫ হিজরী']
     },
     {
         id: 7,
         type: 'mcq',
         question: 'উহুদ যুদ্ধে রাসূলুল্লাহ ﷺ এর কয়টি দাঁত শহীদ হয়?',
-        options: ['১টি', '২টি', '৩টি', '৪টি'],
-        correctAnswer: 1
+        options: ['১টি', '২টি', '৩টি', '৪টি']
     },
     {
         id: 8,
         type: 'mcq',
         question: 'মক্কা বিজয় কোন সালে হয়?',
-        options: ['৬ হিজরী', '৭ হিজরী', '৮ হিজরী', '৯ হিজরী'],
-        correctAnswer: 2
+        options: ['৬ হিজরী', '৭ হিজরী', '৮ হিজরী', '৯ হিজরী']
     },
     {
         id: 9,
         type: 'mcq',
         question: 'পিতার দিক থেকে নবিজির বংশধারায় "মুদরিকা" -এর পুত্র কে?',
-        options: ['মুদর', 'রূহ', 'খুযাইমাহ', 'মালিক'],
-        correctAnswer: 2
+        options: ['মুদর', 'রূহ', 'খুযাইমাহ', 'মালিক']
     },
-    
-    // অতি সংক্ষিপ্ত প্রশ্নগুলো 
     {
         id: 10,
-        type: 'short',
-        question: 'রাসূলুল্লাহ ﷺ এর মাতার নাম কী?',
-        correctAnswer: ['আমিনা', 'amina']
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন গোত্রে জন্মগ্রহণ করেন?',
+        options: ['কুরাইশ', 'খাযরাজ', 'আউস', 'তামিম']
     },
     {
         id: 11,
-        type: 'short',
-        question: 'প্রথম ওহী কোন সূরার আয়াত ছিল?',
-        correctAnswer: ['আলাক', 'alaq', 'alak']
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে ইয়াতিম হন?',
+        options: ['৬ বছর', '৪ বছর', '৮ বছর', '১০ বছর']
     },
     {
         id: 12,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর দাদার নাম কী?',
+        options: ['আবদুল মুত্তালিব', 'আবু তালিব', 'হাশিম', 'আব্বাস']
+    },
+    {
+        id: 13,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন পাহাড়ের গুহায় ধ্যান করতেন?',
+        options: ['হেরা', 'সাওর', 'আরাফাত', 'উহুদ']
+    },
+    {
+        id: 14,
+        type: 'mcq',
+        question: 'প্রথম ওহী নাযিলের সময় রাসূলুল্লাহ ﷺ এর বয়স কত ছিল?',
+        options: ['৪০ বছর', '৩৫ বছর', '৪৫ বছর', '৩০ বছর']
+    },
+    {
+        id: 15,
+        type: 'mcq',
+        question: 'প্রথম কোন পুরুষ ইসলাম গ্রহণ করেন?',
+        options: ['আবু বকর রা.', 'উমর রা.', 'আলী রা.', 'উসমান রা.']
+    },
+    {
+        id: 16,
+        type: 'mcq',
+        question: 'খাদিজা রা. রাসূলুল্লাহ ﷺ কে বিয়ে করার সময় তাঁর বয়স কত ছিল?',
+        options: ['৪০ বছর', '৩৫ বছর', '৩০ বছর', '৪৫ বছর']
+    },
+    {
+        id: 17,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর কয়জন পুত্র ছিল?',
+        options: ['৩ জন', '২ জন', '৪ জন', '৫ জন']
+    },
+    {
+        id: 18,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর কয়জন কন্যা ছিল?',
+        options: ['৪ জন', '৩ জন', '২ জন', '৫ জন']
+    },
+    {
+        id: 19,
+        type: 'mcq',
+        question: 'হাবশায় প্রথম হিজরত কোন সালে হয়?',
+        options: ['৫ নবুবী', '৩ নবুবী', '৭ নবুবী', '৪ নবুবী']
+    },
+    {
+        id: 20,
+        type: 'mcq',
+        question: 'মক্কা থেকে মদীনায় হিজরতের সময় রাসূলুল্লাহ ﷺ কোন গুহায় আশ্রয় নেন?',
+        options: ['সাওর', 'হেরা', 'হিরা', 'আরাফাত']
+    },
+    {
+        id: 21,
+        type: 'mcq',
+        question: 'মদীনায় সর্বপ্রথম কোন মসজিদ নির্মিত হয়?',
+        options: ['মসজিদে কুবা', 'মসজিদে নববী', 'মসজিদে আকসা', 'মসজিদুল হারাম']
+    },
+    {
+        id: 22,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ মদীনায় কার বাড়িতে প্রথম অবস্থান করেন?',
+        options: ['আবু আইয়ুব আনসারী রা.', 'আনাস রা.', 'সা\'দ রা.', 'উসাইদ রা.']
+    },
+    {
+        id: 23,
+        type: 'mcq',
+        question: 'বদর যুদ্ধে মুসলমানদের সংখ্যা কত ছিল?',
+        options: ['৩১৩ জন', '৩০০ জন', '৪০০ জন', '৫০০ জন']
+    },
+    {
+        id: 24,
+        type: 'mcq',
+        question: 'বদর যুদ্ধে কাফিরদের সংখ্যা কত ছিল?',
+        options: ['১০০০ জন', '৮০০ জন', '১২০০ জন', '৯০০ জন']
+    },
+    {
+        id: 25,
+        type: 'mcq',
+        question: 'উহুদ যুদ্ধ কোন সালে সংঘটিত হয়?',
+        options: ['৩ হিজরী', '২ হিজরী', '৪ হিজরী', '৫ হিজরী']
+    },
+    {
+        id: 26,
+        type: 'mcq',
+        question: 'খন্দক যুদ্ধ কোন সালে সংঘটিত হয়?',
+        options: ['৫ হিজরী', '৪ হিজরী', '৬ হিজরী', '৭ হিজরী']
+    },
+    {
+        id: 27,
+        type: 'mcq',
+        question: 'হুদাইবিয়ার সন্ধি কোন সালে সংঘটিত হয়?',
+        options: ['৬ হিজরী', '৫ হিজরী', '৭ হিজরী', '৮ হিজরী']
+    },
+    {
+        id: 28,
+        type: 'mcq',
+        question: 'খাইবার বিজয় কোন সালে সংঘটিত হয়?',
+        options: ['৭ হিজরী', '৬ হিজরী', '৮ হিজরী', '৯ হিজরী']
+    },
+    {
+        id: 29,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন সালে ইন্তেকাল করেন?',
+        options: ['১১ হিজরী', '১০ হিজরী', '১২ হিজরী', '৯ হিজরী']
+    },
+    {
+        id: 30,
+        type: 'mcq',
+        question: 'বিদায় হজ্জ কোন সালে সংঘটিত হয়?',
+        options: ['১০ হিজরী', '৯ হিজরী', '১১ হিজরী', '৮ হিজরী']
+    },
+    {
+        id: 31,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর চাচা হামজা রা. কোন যুদ্ধে শহীদ হন?',
+        options: ['উহুদ', 'বদর', 'খন্দক', 'খাইবার']
+    },
+    {
+        id: 32,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর স্ত্রী আয়িশা রা. এর পিতা কে ছিলেন?',
+        options: ['আবু বকর রা.', 'উমর রা.', 'উসমান রা.', 'আলী রা.']
+    },
+    {
+        id: 33,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর কন্যা ফাতিমা রা. এর স্বামী কে ছিলেন?',
+        options: ['আলী রা.', 'উসমান রা.', 'আবু বকর রা.', 'উমর রা.']
+    },
+    {
+        id: 34,
+        type: 'mcq',
+        question: 'মুয়াজ্জিনে রাসূল কে ছিলেন?',
+        options: ['বিলাল রা.', 'আবু বকর রা.', 'উমর রা.', 'আলী রা.']
+    },
+    {
+        id: 35,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর প্রিয় ঘোড়ার নাম কী ছিল?',
+        options: ['সাকব', 'লিজাম', 'জুহাফা', 'বালখা']
+    },
+    {
+        id: 36,
+        type: 'mcq',
+        question: 'ইসলামের প্রথম শহীদ কে?',
+        options: ['সুমাইয়া রা.', 'ইয়াসির রা.', 'হামজা রা.', 'মুসআব রা.']
+    },
+    {
+        id: 37,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন দিন ইন্তেকাল করেন?',
+        options: ['সোমবার', 'শুক্রবার', 'বৃহস্পতিবার', 'শনিবার']
+    },
+    {
+        id: 38,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোথায় সমাহিত আছেন?',
+        options: ['মদীনা', 'মক্কা', 'জেরুজালেম', 'তায়েফ']
+    },
+    {
+        id: 39,
+        type: 'mcq',
+        question: 'মিরাজের রাতে রাসূলুল্লাহ ﷺ কত ওয়াক্ত নামাজ উপহার পান?',
+        options: ['৫ ওয়াক্ত', '৩ ওয়াক্ত', '৭ ওয়াক্ত', '৯ ওয়াক্ত']
+    },
+    {
+        id: 40,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কোন মাসে জন্মগ্রহণ করেন?',
+        options: ['রবিউল আউয়াল', 'রমজান', 'মুহররম', 'শাওয়াল']
+    },
+    {
+        id: 41,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ এর দুধ ভাই কে ছিলেন?',
+        options: ['আবদুল্লাহ ইবনে হারেস', 'আবদুল্লাহ ইবনে আব্বাস', 'আবদুল্লাহ ইবনে উমর', 'আবদুল্লাহ ইবনে মাসউদ']
+    },
+    {
+        id: 42,
+        type: 'mcq',
+        question: 'আবু লাহাব কে ছিলেন?',
+        options: ['রাসূলের চাচা', 'রাসূলের ভাই', 'রাসূলের পিতা', 'রাসূলের দাদা']
+    },
+    {
+        id: 43,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ ছোটবেলায় কোন কাজ করতেন?',
+        options: ['মেষ চরানো', 'ব্যবসা', 'কৃষিকাজ', 'শিক্ষকতা']
+    },
+    {
+        id: 44,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে প্রথম ব্যবসায়িক সফরে যান?',
+        options: ['১২ বছর', '১০ বছর', '১৫ বছর', '২০ বছর']
+    },
+    {
+        id: 45,
+        type: 'mcq',
+        question: 'তাবুক যুদ্ধ কোন সালে সংঘটিত হয়?',
+        options: ['৯ হিজরী', '৮ হিজরী', '১০ হিজরী', '৭ হিজরী']
+    },
+    {
+        id: 46,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ মক্কা থেকে কোথায় হিজরত করেন?',
+        options: ['মদীনা', 'তায়েফ', 'হাবশা', 'সিরিয়া']
+    },
+    {
+        id: 47,
+        type: 'mcq',
+        question: 'আনসার কারা?',
+        options: ['মদীনার মুসলমান', 'মক্কার মুসলমান', 'হাবশার মুসলমান', 'সিরিয়ার মুসলমান']
+    },
+    {
+        id: 48,
+        type: 'mcq',
+        question: 'মুহাজির কারা?',
+        options: ['মক্কা থেকে হিজরতকারী', 'মদীনার অধিবাসী', 'হাবশার অধিবাসী', 'বেদুইন']
+    },
+    {
+        id: 49,
+        type: 'mcq',
+        question: 'কুরআনের প্রথম সূরা কোনটি নাযিল হয়?',
+        options: ['সূরা আলাক', 'সূরা ফাতিহা', 'সূরা বাকারা', 'সূরা ইখলাস']
+    },
+    {
+        id: 50,
+        type: 'mcq',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে ওফাত পান?',
+        options: ['৬৩ বছর', '৬০ বছর', '৬৫ বছর', '৭০ বছর']
+    },
+    
+    // Short Answer Questions (25)
+    {
+        id: 51,
         type: 'short',
-        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে নবুওয়াত লাভ করেন? (শুধু সংখ্যা)',
-        correctAnswer: ['৪০', '40', 'চল্লিশ']
+        question: 'রাসূলুল্লাহ ﷺ এর মাতার নাম কী?'
+    },
+    {
+        id: 52,
+        type: 'short',
+        question: 'প্রথম ওহী কোন সূরার আয়াত ছিল?'
+    },
+    {
+        id: 53,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে নবুওয়াত লাভ করেন? (শুধু সংখ্যা)'
+    },
+    {
+        id: 54,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর জন্মস্থান কোথায়?'
+    },
+    {
+        id: 55,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর কনিষ্ঠ কন্যার নাম কী?'
+    },
+    {
+        id: 56,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর প্রিয় স্ত্রীর নাম কী?'
+    },
+    {
+        id: 57,
+        type: 'short',
+        question: 'হিজরী সন কোন বছর থেকে শুরু হয়? (সংখ্যা)'
+    },
+    {
+        id: 58,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর আমল নামা লেখক কে ছিলেন?'
+    },
+    {
+        id: 59,
+        type: 'short',
+        question: 'মক্কা বিজয়ের বছরকে কী বলা হয়?'
+    },
+    {
+        id: 60,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর প্রথম পুত্রের নাম কী?'
+    },
+    {
+        id: 61,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর সবচেয়ে কাছের সাহাবী কে ছিলেন?'
+    },
+    {
+        id: 62,
+        type: 'short',
+        question: 'মিরাজের রাতে কোন বাহনে আরোহণ করেন?'
+    },
+    {
+        id: 63,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর বয়সে বিবাহ করেন? (শুধু সংখ্যা)'
+    },
+    {
+        id: 64,
+        type: 'short',
+        question: 'খন্দক যুদ্ধে কার পরামর্শে পরিখা খনন করা হয়?'
+    },
+    {
+        id: 65,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর প্রিয় খাবার কী ছিল?'
+    },
+    {
+        id: 66,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কোন দিন জন্মগ্রহণ করেন?'
+    },
+    {
+        id: 67,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর উপাধি কী ছিল?'
+    },
+    {
+        id: 68,
+        type: 'short',
+        question: 'মদীনার পূর্ব নাম কী ছিল?'
+    },
+    {
+        id: 69,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর মক্কায় ছিলেন? (শুধু সংখ্যা)'
+    },
+    {
+        id: 70,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ কত বছর মদীনায় ছিলেন? (শুধু সংখ্যা)'
+    },
+    {
+        id: 71,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর দাদা কত বছর বয়সে ইন্তেকাল করেন? (শুধু সংখ্যা)'
+    },
+    {
+        id: 72,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর ধাত্রী মা কোন গোত্রের ছিলেন?'
+    },
+    {
+        id: 73,
+        type: 'short',
+        question: 'কাবা ঘর পুনর্নির্মাণের সময় রাসূলুল্লাহ ﷺ এর বয়স কত ছিল? (শুধু সংখ্যা)'
+    },
+    {
+        id: 74,
+        type: 'short',
+        question: 'রাসূলুল্লাহ ﷺ এর সচিব কে ছিলেন?'
+    },
+    {
+        id: 75,
+        type: 'short',
+        question: 'ওয়াহী লেখক সাহাবীদের মধ্যে সবচেয়ে প্রসিদ্ধ কে?'
     }
 ];
+	var TotalTime = 60 * 60; // Total quiz time in seconds
 	
         var state = {
             view: 'start',
             participant: { name: '', phone: '' },
             answers: {},
             currentQuestion: 0,
-            timeLeft: 1 * 60,
+            timeLeft: TotalTime,
             startTime: null,
             timerInterval: null,
             loading: false,
@@ -616,7 +1017,9 @@ function getBengaliOption(index) {
             submittedPhones: {},
             exitCount: 0,
             sessionId: null,
-            warningPlayed: false
+            warningPlayed: false,
+			halfTimeShown: false,      // Add this
+            fifteenMinShown: false     // Add this
         };
 
         var audioContext = null;
@@ -675,75 +1078,397 @@ function getBengaliOption(index) {
                 console.log('Warning error:', e);
             }
         }
+		
+		function showTimeBanner(message, isWarning) {
+    // Remove existing banner if any
+    var existing = document.getElementById('timeBanner');
+    if (existing) {
+        existing.parentNode.removeChild(existing);
+    }
+    
+    var banner = document.createElement('div');
+    banner.id = 'timeBanner';
+    banner.className = 'time-banner' + (isWarning ? ' warning' : '');
+    banner.innerHTML = message;
+    document.body.appendChild(banner);
+    
+    // Auto remove after 5 seconds
+    setTimeout(function() {
+        if (banner.parentNode) {
+            banner.parentNode.removeChild(banner);
+        }
+    }, 5000);
+}
 
         function generateSessionId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
 
-        function saveState() {
-            try {
-                var data = {
-                    view: state.view,
-                    participant: state.participant,
-                    answers: state.answers,
-                    currentQuestion: state.currentQuestion,
-                    timeLeft: state.timeLeft,
-                    startTime: state.startTime,
-                    submittedPhones: state.submittedPhones,
-                    exitCount: state.exitCount,
-                    sessionId: state.sessionId
-                };
-                localStorage.setItem('seerahQuiz', JSON.stringify(data));
-            } catch (e) {
-                console.error('Save error:', e);
+		function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = sec % 60;
+    var sStr = s < 10 ? '০' + toBengaliNumber(s) : toBengaliNumber(s);
+    return toBengaliNumber(m) + ':' + sStr;
+}
+
+        function startQuiz() {
+            var nameInput = document.getElementById('name');
+            var phoneInput = document.getElementById('phone');
+            
+            if (!nameInput || !phoneInput) return;
+            
+            var name = nameInput.value.replace(/^\s+|\s+$/g, '');
+            var phone = phoneInput.value.replace(/^\s+|\s+$/g, '');
+            
+            if (!name || !phone) {
+                alert('নাম ও মোবাইল নম্বর দিন');
+                return;
+            }
+	
+            if (!/^01\d{9}$/.test(phone)) {
+                alert('সঠিক মোবাইল নম্বর দিন');
+                return;
+            }
+
+            if (state.submittedPhones[phone]) {
+                alert('এই নম্বর দিয়ে ইতিমধ্যে দেওয়া হয়েছে!');
+                return;
+            }
+            
+            state.participant = { name: name, phone: phone };
+            state.startTime = Date.now();
+            state.sessionId = generateSessionId();
+            state.view = 'quiz';
+            state.exitCount = 0;
+            startTimer();
+            render();
+        }
+
+        function startTimer() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            
+            if (!audioContext) {
+                initAudio();
+            }
+            
+            state.timerInterval = setInterval(function() {
+                state.timeLeft--;
+                if (state.timeLeft <= 0) submitQuiz();
+                updateTimer();
+            }, 1000);
+        }
+
+        function updateTimer() {
+    var el = document.getElementById('timer');
+    if (el) {
+        el.textContent = formatTime(state.timeLeft);
+        el.className = state.timeLeft <= 30 ? 'timer warning' : 'timer';
+    }
+    
+    // Half time warning (50% of total time)
+var halfTime = Math.floor(TotalTime / 2);
+if (state.timeLeft === halfTime && !state.halfTimeShown) {
+    state.halfTimeShown = true;
+    var remainingMinutes = Math.floor(state.timeLeft / 60); // Convert seconds to minutes
+    showTimeBanner('⏰ অর্ধেক সময় শেষ! আরও ' + toBengaliNumber(remainingMinutes) + ' মিনিট বাকি।', false);
+}
+    
+	
+    // 75% time warning (25% time left)
+    var quarterTime = Math.floor(TotalTime / 4);
+    if (state.timeLeft === quarterTime && !state.quarterTimeShown) {
+        state.quarterTimeShown = true;
+        var remainingMinutes = Math.floor(state.timeLeft / 60);
+        showTimeBanner('⚠️ সতর্কতা! আর মাত্র ' + toBengaliNumber(remainingMinutes) + ' মিনিট সময় বাকি!', true);
+    }
+    
+    if (state.timeLeft === 30 && !hasPlayedWarning) {
+        document.body.className = 'warning-time';
+        playWarningBeep();
+        
+        setTimeout(function() {
+            if (state.timeLeft > 0 && state.timeLeft < 30) {
+                document.body.className = '';
+            }
+        }, 30000);
+    }
+}
+
+        function submitQuiz() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            document.body.className = '';
+            document.body.style.background = '#0f766e';
+            document.body.style.background = 'linear-gradient(135deg, #0f766e 0%, #065f46 50%, #064e3b 100%)';
+            hasPlayedWarning = false;
+            state.loading = true;
+            render();
+            
+var timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
+var answeredCount = 0;
+var unansweredCount = 0;
+
+var submission = {
+    sessionId: state.sessionId,
+    name: state.participant.name,
+    phone: state.participant.phone,
+    timeTaken: formatTime(timeTaken),
+    exitCount: state.exitCount,
+    timestamp: Date.now(),
+    answers: {}
+};
+
+for (var i = 0; i < QUESTIONS.length; i++) {
+    var q = QUESTIONS[i];
+    var userAnswer = state.answers[q.id];
+    var answerText = '';
+    
+    if (userAnswer !== undefined && userAnswer !== '') {
+        if (q.type === 'mcq') {
+            answerText = getBengaliOption(userAnswer);  // শুধু অপশন
+        } else if (q.type === 'short') {
+            answerText = userAnswer;
+        }
+        answeredCount++;
+    } else {
+        answerText = 'X';
+        unansweredCount++;
+    }
+    
+    submission.answers['Q' + (i + 1)] = answerText;
+}
+
+submission.answeredCount = answeredCount;
+submission.unansweredCount = unansweredCount;
+
+            if (GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', GOOGLE_SCRIPT_URL, true);
+                xhr.send(JSON.stringify(submission));
+            }
+
+            state.submittedPhones[state.participant.phone] = Date.now();
+            state.lastSubmission = submission;
+            state.loading = false;
+            state.view = 'submitted';
+            state.sessionId = null;
+            state.exitCount = 0;
+            render();
+        }
+
+        function selectAnswer(qId, idx) {
+    // Toggle: if already selected, unselect it
+    if (state.answers[qId] === idx) {
+        delete state.answers[qId];
+    } else {
+        state.answers[qId] = idx;
+    }
+    render();
+}
+
+        function selectShortAnswer(qId) {
+            var input = document.getElementById('short-input-' + qId);
+            if (input) {
+                state.answers[qId] = input.value.trim();
             }
         }
 
-        function loadState() {
-            try {
-                var saved = localStorage.getItem('seerahQuiz');
-                if (!saved) return;
-                
-                var data = JSON.parse(saved);
-                
-                if (data.view === 'quiz' && data.sessionId) {
-                    state.view = data.view;
-                    state.participant = data.participant;
-                    state.answers = data.answers;
-                    state.currentQuestion = data.currentQuestion;
-                    state.timeLeft = data.timeLeft;
-                    state.startTime = data.startTime;
-                    state.exitCount = data.exitCount;
-                    state.sessionId = data.sessionId;
-                    
-                    if (data.startTime) {
-                        var elapsed = Math.floor((Date.now() - data.startTime) / 1000);
-                        state.timeLeft = Math.max(0, 60 - elapsed);
-                        
-                        if (state.timeLeft <= 0) {
-                            submitQuiz();
-                            return;
-                        }
-                    }
-                    
-                    state.exitCount++;
-                    
-                    if (state.exitCount > 2) {
-                        alert('⚠️ আপনি ২ বারের বেশি বের হয়ে গেছেন!');
-                        resetQuiz();
-                        return;
-                    }
-                    
-                    saveState();
-                    showExitWarning();
-                    return;
+function handleEnterKey(event, qId) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+        event.preventDefault();
+        selectShortAnswer(qId);
+        
+        var isLast = state.currentQuestion === QUESTIONS.length - 1;
+        if (!isLast) {
+            nextQuestion();
+        }
+    }
+}
+
+        function nextQuestion() {
+            if (state.currentQuestion < QUESTIONS.length - 1) {
+                state.currentQuestion++;
+                render();
+            }
+        }
+
+        function prevQuestion() {
+            if (state.currentQuestion > 0) {
+                state.currentQuestion--;
+                render();
+            }
+        }
+
+        function renderStart() {
+            document.body.className = '';
+            var html = '<div class="container"><div class="card">' +
+                '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
+                '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
+                '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
+				'<li>মোট: <strong> ৫০ </strong> নম্বর  ||   সময়: <strong>' + toBengaliNumber(TotalTime / 60) + '</strong> মিনিট ( <strong>' + toBengaliNumber(TotalTime/60/60) + '</strong>  ঘণ্টা ) </li>' +
+                '<li>মোট প্রশ্ন: <strong>' + toBengaliNumber(QUESTIONS.length) + '</strong> টি (৫০টি  + ২৫টি )</li>' +
+				'<li>বহুনির্বাচনী (৫০ x ০.৫ = ২৫নম্বর) </li>' + 
+				'<li>অতি সংক্ষিপ্ত (২৫ x ১ = ২৫নম্বর) </li>' +
+                '<li>সব প্রশ্নের উত্তর দেওয়ার চেষ্টা করুন।</li>' +
+                '</ul></div>' +
+                '<div class="warning-box"><p>⚠️ প্রতিটি ভুল উত্তরের জন্য <b> ০.২৫ </b> নম্বর কর্তন করা হবে। বহুনির্বাচনী এবং অতি সংক্ষিপ্ত উভয়ের ক্ষেত্রে প্রযোজ্য।</p></div>' +
+                '<div class="form-group"><label>👤 নাম <span style="color: #dc2626;">*</span> (বাংলা/English)</label>' +
+                '<input type="text" id="name" placeholder="পূর্ণ নাম লিখুন"maxlength="32"></div>' +
+                '<div class="form-group"><label>📱 মোবাইল নম্বর <span style="color: #dc2626;">*</span> (English)</label>' + 
+                '<input type="tel" id="phone" placeholder="Ex: 01886667466"  maxlength="11"></div>' +
+                '<button class="btn btn-primary" onclick="startQuiz()">বিসমিল্লাহির রাহমানির রাহীম</button>' +
+                '</div></div>';
+            return html;
+        }
+
+        function renderQuiz() {
+            if (state.loading) {
+                return '<div class="container"><div class="card">' +
+                    '<div class="loading"><div class="loading-spinner"></div>' +
+                    '<p style="margin-top:15px; font-size:16px; font-weight:600;">জমা হচ্ছে...</p>' +
+                    '</div></div></div>';
+            }
+    
+			var q = QUESTIONS[state.currentQuestion];
+
+            if (state.timeLeft <= 30) {
+                document.body.className = 'warning-time';
+            } else {
+                document.body.className = '';
+            }
+			
+            var opts = '';
+
+            if (q.type === 'mcq') {
+                for (var i = 0; i < q.options.length; i++) {
+                    var sel = state.answers[q.id] === i ? 'selected' : '';
+                    opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
+                        '<strong>' + getBengaliOption(i) + '.</strong> ' + q.options[i] +
+                        '</button>';
                 }
-                
-                if (data.submittedPhones) {
-                    state.submittedPhones = data.submittedPhones;
+            } else if (q.type === 'short') {
+                var currentAnswer = state.answers[q.id] || '';
+                var filledClass = currentAnswer ? 'filled' : '';
+                opts = '<input type="text" ' +
+                    'id="short-input-' + q.id + '" ' +
+                    'class="short-answer-input ' + filledClass + '" ' +
+                    'placeholder="এখানে উত্তর লিখুন" ' +
+                    'value="' + currentAnswer + '" ' +
+                    'oninput="selectShortAnswer(' + q.id + ')" ' +
+					'onkeypress="handleEnterKey(event, ' + q.id + ')" ' +
+					'autofocus>';
+            }
+
+            var isLast = state.currentQuestion === QUESTIONS.length - 1;
+           
+            var html = '<div class="container">' +
+                '<div class="timer-box">' +
+                '<div class="timer-header">' +
+                '<div class="timer-info">📝 প্রশ্ন ' + toBengaliNumber(state.currentQuestion + 1) + '/' + toBengaliNumber(QUESTIONS.length) + '</div>' +
+                '<div class="' + (state.timeLeft <= 30 ? 'timer warning' : 'timer') + '">⏰ <span id="timer">' + formatTime(state.timeLeft) + '</span></div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="question-card">' +
+                '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'অতি সংক্ষিপ্ত') + '</span>' +
+                '<div class="question-text">' + q.question + '</div>' +
+                opts +
+                '</div>' +
+                '<div class="nav-buttons">' +
+                '<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>';
+
+            if (isLast) {
+                html += '<button class="btn btn-danger" onclick="submitQuiz()">✓ জমা দিন</button>';
+            } else {
+                html += '<span style="flex: 1;"></span>';
+            }
+
+            html += '<button class="btn btn-secondary" onclick="nextQuestion()" ' + (isLast ? 'disabled' : '') + '>পরবর্তী <span style="font-size: 20px;">→</span></button>';
+            html += '</div></div>';
+            return html;
+        }
+
+       function renderSubmitted() {
+    var answersList = '';
+    
+    for (var i = 0; i < QUESTIONS.length; i++) {
+        var q = QUESTIONS[i];
+        var userAnswer = state.answers[q.id];
+        var answerText = '';
+        
+        if (userAnswer !== undefined && userAnswer !== '') {
+            if (q.type === 'mcq') {
+                answerText = '<span style="color: #059669;">' + getBengaliOption(userAnswer) + '. ' + q.options[userAnswer] + '</span>';
+            } else if (q.type === 'short') {
+                answerText = '<span style="color: #059669;">' + userAnswer + '</span>';
+            }
+        } else {
+            answerText = '<span style="color: #dc2626; font-weight: 700;">✗ উত্তর দেননি</span>';
+        }
+        
+        answersList += '<li style="padding: 8px; background: ' + (i % 2 === 0 ? '#f9fafb' : 'white') + '; border-radius: 6px; margin-bottom: 4px;">' +
+            '<strong style="color: #065f46;">প্রশ্ন ' + toBengaliNumber(i + 1) + ':</strong> ' + answerText + '</li>';
+    }
+    
+    var sessionId = state.lastSubmission.sessionId;
+    
+    return '<div class="container"><div class="card">' +
+        '<div class="success-icon">✅</div>' +
+        '<div class="success-message">' +
+        '<h2 style="color: #065f46; font-size: 26px; margin-bottom: 12px;">জমা সফল হয়েছে!</h2>' +
+        '<p style="font-size: 16px; color: #374151; margin: 12px 0; font-weight: 600;">' + state.participant.name + '</p>' +
+        '<p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">আপনার উত্তরপত্র সফলভাবে জমা হয়েছে।</p>' +
+        
+        '<div class="info-box" style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); border-color: #3b82f6; margin-bottom: 15px;">' +
+        '<h3 style="color: #1e40af; margin-bottom: 8px; font-size: 15px;">🆔 Session ID</h3>' +
+        '<p style="color: #1e3a8a; font-size: 16px; font-weight: 900; font-family: monospace; margin: 0; letter-spacing: 0.5px; word-break: break-all;">' + 
+        sessionId + '</p>' +
+        '<p style="color: #3b82f6; font-size: 11px; margin-top: 6px; font-weight: 600;">এই ID টি সংরক্ষণ করুন</p>' +
+        '</div>' +
+        
+        '<div class="info-box" style="margin-bottom: 15px;">' +
+        '<h3>📊 পরীক্ষার তথ্য</h3><ul style="margin: 0;">' +
+        '<li>সময় লেগেছে: <strong>' + state.lastSubmission.timeTaken + '</strong></li>' +
+        '<li>উত্তর দিয়েছেন: <strong>' + toBengaliNumber(state.lastSubmission.answeredCount) + ' টি</strong></li>' +
+        '<li>উত্তর দেননি: <strong>' + toBengaliNumber(state.lastSubmission.unansweredCount) + ' টি</strong></li>' +
+        '</ul></div>' +
+        
+        '<button onclick="downloadPDF()" class="btn btn-primary" style="margin-bottom: 12px; background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); display: flex; align-items: center; justify-content: center; gap: 8px;">' +
+        '<span style="font-size: 18px;">📥</span> PDF ডাউনলোড করুন</button>' +
+        
+        '<div class="info-box" style="margin-top: 15px; max-height: 350px; overflow-y: auto;">' +
+        '<h3 style="position: sticky; top: 0; background: #d1fae5; padding: 10px 0; margin: -16px -16px 12px -16px; padding-left: 16px; z-index: 1;">📝 আপনার দেওয়া উত্তরসমূহ</h3>' +
+        '<ul style="margin: 0; padding: 0; list-style: none;">' +
+        answersList +
+        '</ul></div>' +
+        
+        '<div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 12px; margin-top: 15px;">' +
+        '<p style="color: #78350f; font-size: 13px; margin: 0; font-weight: 600; text-align: center;">📢 ফলাফল ২-৩ দিনের মধ্যে প্রকাশ করা হবে ইনশাআল্লাহ্‌</p>' +
+        '</div>' +
+        
+        '<p style="color:#6b7280; margin-top: 20px; font-size: 14px; text-align: center;">জাযাকাল্লাহু খাইরান 🤲</p>' +
+        '</div></div></div>';
+}
+
+        function render() {
+            var app = document.getElementById('app');
+            if (state.view === 'start') {
+                app.innerHTML = renderStart();
+            } else if (state.view === 'quiz') {
+                app.innerHTML = renderQuiz();
+				
+				// Auto focus for short answer questions
+        setTimeout(function() {
+            var q = QUESTIONS[state.currentQuestion];
+            if (q.type === 'short') {
+                var input = document.getElementById('short-input-' + q.id);
+                if (input) {
+                    input.focus();
+                    input.click(); // Extra trigger for mobile
                 }
-            } catch (e) {
-                console.error('Load error:', e);
+            }
+        }, 150);
+				
+            } else if (state.view === 'submitted') {
+                app.innerHTML = renderSubmitted();
             }
         }
 
@@ -785,7 +1510,7 @@ function getBengaliOption(index) {
                 participant: { name: '', phone: '' },
                 answers: {},
                 currentQuestion: 0,
-                timeLeft: 60,
+                timeLeft: TotalTime,
                 startTime: null,
                 timerInterval: null,
                 loading: false,
@@ -793,314 +1518,128 @@ function getBengaliOption(index) {
                 submittedPhones: submittedPhones,
                 exitCount: 0,
                 sessionId: null,
-                warningPlayed: false
+                warningPlayed: false,
+				halfTimeShown: false,      // Reset this
+                fifteenMinShown: false     // Reset this
             };
-            saveState();
             render();
         }
-
-        function formatTime(sec) {
-            var m = Math.floor(sec / 60);
-            var s = sec % 60;
-            return m + ':' + (s < 10 ? '0' : '') + s;
+		
+		function downloadPDF() {
+    var pdfContent = document.createElement('div');
+    pdfContent.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px; background: white; padding: 40px; font-family: Arial, sans-serif;';
+    
+    var sessionId = state.lastSubmission.sessionId;
+    
+    var html = '<div style="text-align: center; margin-bottom: 30px;">' +
+        '<h1 style="color: #065f46; font-size: 32px; margin: 0 0 10px 0;">সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
+        '<p style="color: #6b7280; font-size: 16px; margin: 0;">উত্তরপত্র</p>' +
+        '</div>' +
+        
+        '<div style="background: #dbeafe; border: 3px solid #3b82f6; border-radius: 12px; padding: 20px; margin-bottom: 25px;">' +
+        '<h3 style="color: #1e40af; font-size: 18px; margin: 0 0 10px 0;">🆔 Session ID</h3>' +
+        '<p style="color: #1e3a8a; font-size: 20px; font-weight: bold; font-family: monospace; margin: 0; word-break: break-all;">' + 
+        sessionId + '</p>' +
+        '</div>' +
+        
+        '<div style="background: #f3f4f6; border-radius: 10px; padding: 20px; margin-bottom: 25px;">' +
+        '<h3 style="color: #065f46; font-size: 18px; margin: 0 0 15px 0;">👤 অংশগ্রহণকারীর তথ্য</h3>' +
+        '<p style="margin: 8px 0; color: #374151; font-size: 15px;"><strong>নাম:</strong> ' + state.participant.name + '</p>' +
+        '<p style="margin: 8px 0; color: #374151; font-size: 15px;"><strong>মোবাইল:</strong> ' + state.participant.phone + '</p>' +
+        '<p style="margin: 8px 0; color: #374151; font-size: 15px;"><strong>সময় লেগেছে:</strong> ' + state.lastSubmission.timeTaken + '</p>' +
+        '<p style="margin: 8px 0; color: #374151; font-size: 15px;"><strong>উত্তর দিয়েছেন:</strong> ' + toBengaliNumber(state.lastSubmission.answeredCount) + ' টি</p>' +
+        '<p style="margin: 8px 0; color: #374151; font-size: 15px;"><strong>উত্তর দেননি:</strong> ' + toBengaliNumber(state.lastSubmission.unansweredCount) + ' টি</p>' +
+        '</div>' +
+        
+        '<div style="margin-bottom: 20px;">' +
+        '<h3 style="color: #065f46; font-size: 20px; margin: 0 0 15px 0; border-bottom: 3px solid #10b981; padding-bottom: 10px;">📝 আপনার দেওয়া উত্তরসমূহ</h3>';
+    
+    for (var i = 0; i < QUESTIONS.length; i++) {
+        var q = QUESTIONS[i];
+        var userAnswer = state.answers[q.id];
+        var answerText = '';
+        var answerColor = '#059669';
+        
+        if (userAnswer !== undefined && userAnswer !== '') {
+            if (q.type === 'mcq') {
+                answerText = getBengaliOption(userAnswer) + '. ' + q.options[userAnswer];
+            } else if (q.type === 'short') {
+                answerText = userAnswer;
+            }
+        } else {
+            answerText = '✗ উত্তর দেননি';
+            answerColor = '#dc2626';
         }
-
-        function startQuiz() {
-            var nameInput = document.getElementById('name');
-            var phoneInput = document.getElementById('phone');
-            
-            if (!nameInput || !phoneInput) return;
-            
-            var name = nameInput.value.replace(/^\s+|\s+$/g, '');
-            var phone = phoneInput.value.replace(/^\s+|\s+$/g, '');
-            
-            if (!name || !phone) {
-                alert('নাম ও মোবাইল নাম্বার দিন');
-                return;
-            }
-
-            if (!/^01\d{9}$/.test(phone)) {
-                alert('সঠিক মোবাইল নাম্বার দিন');
-                return;
-            }
-
-            if (state.submittedPhones[phone]) {
-                alert('এই নাম্বার দিয়ে ইতিমধ্যে দেওয়া হয়েছে!');
-                return;
-            }
-            
-            state.participant = { name: name, phone: phone };
-            state.startTime = Date.now();
-            state.sessionId = generateSessionId();
-            state.view = 'quiz';
-            state.exitCount = 0;
-            saveState();
-            startTimer();
-            render();
-        }
-
-        function startTimer() {
-            if (state.timerInterval) clearInterval(state.timerInterval);
-            
-            if (!audioContext) {
-                initAudio();
-            }
-            
-            state.timerInterval = setInterval(function() {
-                state.timeLeft--;
-                saveState();
-                if (state.timeLeft <= 0) submitQuiz();
-                updateTimer();
-            }, 1000);
-        }
-
-        function updateTimer() {
-            var el = document.getElementById('timer');
-            if (el) {
-                el.textContent = formatTime(state.timeLeft);
-                el.className = state.timeLeft <= 30 ? 'timer warning' : 'timer';
-            }
-            
-            if (state.timeLeft === 30 && !hasPlayedWarning) {
-                document.body.className = 'warning-time';
-                playWarningBeep();
-                
-                setTimeout(function() {
-                    if (state.timeLeft > 0 && state.timeLeft < 30) {
-                        document.body.className = '';
-                    }
-                }, 30000);
-            }
-        }
-
-        function submitQuiz() {
-            if (state.timerInterval) clearInterval(state.timerInterval);
-            document.body.className = '';
-            document.body.style.background = '#0f766e';
-            document.body.style.background = 'linear-gradient(135deg, #0f766e 0%, #065f46 50%, #064e3b 100%)';
-            hasPlayedWarning = false;
-            state.loading = true;
-            render();
-            
-            var timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
-            var correct = 0;
-            var wrong = 0;
-            
-            var timeTaken = Math.floor((Date.now() - state.startTime) / 1000);
-var correct = 0;
-var wrong = 0;
-
-for (var i = 0; i < QUESTIONS.length; i++) {
-    var q = QUESTIONS[i];
-    if (state.answers[q.id] !== undefined) {
-        if (q.type === 'mcq') {
-            // MCQ চেক
-            if (state.answers[q.id] === q.correctAnswer) {
-                correct++;
-            } else {
-                wrong++;
-            }
-        } else if (q.type === 'short') {
-            // Short answer চেক
-            var userAnswer = state.answers[q.id].toLowerCase().trim();
-            var isCorrect = false;
-            
-            for (var j = 0; j < q.correctAnswer.length; j++) {
-                if (userAnswer === q.correctAnswer[j].toLowerCase().trim()) {
-                    isCorrect = true;
-                    break;
-                }
-            }
-            
-            if (isCorrect) {
-                correct++;
-            } else {
-                wrong++;
-            }
-        }
+        
+        html += '<div style="background: ' + (i % 2 === 0 ? '#f9fafb' : 'white') + '; padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #10b981;">' +
+            '<p style="margin: 0 0 8px 0; color: #065f46; font-size: 15px; font-weight: bold;">প্রশ্ন ' + toBengaliNumber(i + 1) + ': ' + q.question + '</p>' +
+            '<p style="margin: 0; color: ' + answerColor + '; font-size: 14px; font-weight: 600;">উত্তর: ' + answerText + '</p>' +
+            '</div>';
     }
-}
-
-            var submission = {
-                sessionId: state.sessionId,
-                name: state.participant.name,
-                phone: state.participant.phone,
-                correct: correct,
-                wrong: wrong,
-                unanswered: QUESTIONS.length - correct - wrong,
-                timeTaken: formatTime(timeTaken),
-                exitCount: state.exitCount,
-                timestamp: Date.now()
-            };
-
-            if (GOOGLE_SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', GOOGLE_SCRIPT_URL, true);
-                xhr.send(JSON.stringify(submission));
-            }
-
-            state.submittedPhones[state.participant.phone] = Date.now();
-            state.lastSubmission = submission;
-            state.loading = false;
-            state.view = 'submitted';
-            state.sessionId = null;
-            state.exitCount = 0;
-            saveState();
-            render();
-        }
-
-     function selectAnswer(qId, idx) {
-    state.answers[qId] = idx;
-    saveState();
-    render();
-}
-
-function selectShortAnswer(qId) {
-    var input = document.getElementById('short-input-' + qId);
-    if (input) {
-        state.answers[qId] = input.value.trim();
-        saveState();
-    }
-}
-
-        function nextQuestion() {
-            if (state.currentQuestion < QUESTIONS.length - 1) {
-                state.currentQuestion++;
-                saveState();
-                render();
-            }
-        }
-
-        function prevQuestion() {
-            if (state.currentQuestion > 0) {
-                state.currentQuestion--;
-                saveState();
-                render();
-            }
-        }
-
-        function renderStart() {
-            document.body.className = '';
-            var html = '<div class="container"><div class="card">' +
-                '<h1>সীরাতুন নবী ﷺ প্রতিযোগিতা</h1>' +
-                '<p class="subtitle">রাসূলুল্লাহ ﷺ এর জীবনী নিয়ে জ্ঞান প্রতিযোগিতা</p>' +
-                '<div class="info-box"><h3>প্রতিযোগিতার বিবরণ:</h3><ul>' +
-                '<li>মোট প্রশ্ন: ' + toBengaliNumber(QUESTIONS.length) + 'টি (বহুনির্বাচনী + অতি সংক্ষিপ্ত)</li>' +
-                '<li>সময়: ১ মিনিট</li>' +
-                '<li>২ বারের বেশি বের হলে নতুন করে পরীক্ষা দিতে হবে</li>' +
-                '<li>সব প্রশ্নের উত্তর দিন</li>' +
-                '</ul></div>' +
-                '<div class="warning-box"><p>⚠️ আপনার রেজিস্ট্রেশন করা মোবাইল নাম্বার ব্যাবহার করুন</p></div>' +
-                '<div class="form-group"><label>👤 নাম* (বাংলা/English)</label>' +
-                '<input type="text" id="name" placeholder="পূর্ণ নাম লিখুন" ></div>' +
-                '<div class="form-group"><label>📱 মোবাইল নাম্বার* (English)</label>' +
-                '<input type="tel" id="phone" placeholder="01XXXXXXXXX"  maxlength="11"></div>' +
-                '<button class="btn btn-primary" onclick="startQuiz()">বিসমিল্লাহির রাহমানির রাহীম</button>' +
-                '</div></div>';
-            return html;
-        }
-
-        function renderQuiz() {
-            if (state.loading) {
-                return '<div class="container"><div class="card">' +
-                    '<div class="loading"><div class="loading-spinner"></div>' +
-                    '<p style="margin-top:15px; font-size:16px; font-weight:600;">জমা হচ্ছে...</p>' +
-                    '</div></div></div>';
-            }
-
-            var q = QUESTIONS[state.currentQuestion];
-            var progress = ((state.currentQuestion + 1) / QUESTIONS.length) * 100;
+    
+    html += '</div>' +
+        '<div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb;">' +
+        '<p style="color: #6b7280; font-size: 14px; margin: 0;">জাযাকাল্লাহু খাইরান 🤲</p>' +
+        '<p style="color: #9ca3af; font-size: 12px; margin: 5px 0 0 0;">Generated on ' + new Date().toLocaleString('bn-BD') + '</p>' +
+        '</div>';
+    
+    pdfContent.innerHTML = html;
+    document.body.appendChild(pdfContent);
+    
+    // Show loading
+    var loadingDiv = document.createElement('div');
+    loadingDiv.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 99999; display: flex; align-items: center; justify-content: center;';
+    loadingDiv.innerHTML = '<div style="background: white; padding: 30px 50px; border-radius: 12px; text-align: center;">' +
+        '<div style="border: 4px solid #f3f4f6; border-top: 4px solid #10b981; border-radius: 50%; width: 50px; height: 50px; margin: 0 auto 20px auto; animation: spin 1s linear infinite;"></div>' +
+        '<p style="color: #374151; font-size: 16px; font-weight: 600; margin: 0;">PDF তৈরি হচ্ছে...</p>' +
+        '</div>';
+    document.body.appendChild(loadingDiv);
+    
+    setTimeout(function() {
+        html2canvas(pdfContent, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+        }).then(function(canvas) {
+            var { jsPDF } = window.jspdf;
             
-            if (state.timeLeft <= 30) {
-                document.body.className = 'warning-time';
-            } else {
-                document.body.className = '';
+            var imgWidth = 210;
+            var pageHeight = 297;
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+            var position = 0;
+            
+            var pdf = new jsPDF('p', 'mm', 'a4');
+            var imgData = canvas.toDataURL('image/png');
+            
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
             }
-			
-			var opts = '';
-
-if (q.type === 'mcq') {
-    // MCQ অপশন
-    for (var i = 0; i < q.options.length; i++) {
-        var sel = state.answers[q.id] === i ? 'selected' : '';
-        opts += '<button class="option ' + sel + '" onclick="selectAnswer(' + q.id + ', ' + i + ')">' +
-            '<strong>' + getBengaliOption(i) + '.</strong> ' + q.options[i] +
-            '</button>';
-    }
-} else if (q.type === 'short') {
-    // Short answer input
-    var currentAnswer = state.answers[q.id] || '';
-    var filledClass = currentAnswer ? 'filled' : '';
-    opts = '<input type="text" ' +
-        'id="short-input-' + q.id + '" ' +
-        'class="short-answer-input ' + filledClass + '" ' +
-        'placeholder="এখানে উত্তর লিখুন" ' +
-        'value="' + currentAnswer + '" ' +
-        'oninput="selectShortAnswer(' + q.id + ')">';
+            
+            pdf.save('Seerah_Quiz_' + sessionId.substr(0, 10) + '.pdf');
+            
+            document.body.removeChild(pdfContent);
+            document.body.removeChild(loadingDiv);
+        }).catch(function(error) {
+            console.error('PDF Error:', error);
+            alert('PDF তৈরিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+            document.body.removeChild(pdfContent);
+            document.body.removeChild(loadingDiv);
+        });
+    }, 500);
 }
-
-            var isLast = state.currentQuestion === QUESTIONS.length - 1;
-           
-            var html = '<div class="container">' +
-                '<div class="timer-box">' +
-                '<div class="timer-header">' +
-               '<div class="timer-info">📝 প্রশ্ন ' + toBengaliNumber(state.currentQuestion + 1) + '/' + toBengaliNumber(QUESTIONS.length) + '</div>' +
-                '<div class="' + (state.timeLeft <= 30 ? 'timer warning' : 'timer') + '">⏰ <span id="timer">' + formatTime(state.timeLeft) + '</span></div>' +
-                '</div>' +
-                '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
-                '</div>' +
-                '<div class="question-card">' +
-                '<span class="question-badge">' + (q.type === 'mcq' ? 'বহুনির্বাচনী' : 'অতি সংক্ষিপ্ত') + '</span>' +
-                '<div class="question-text">' + q.question + '</div>' +
-                opts +
-                '</div>' +
-                  '<div class="nav-buttons">' +
-'<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>';
-
-if (isLast) {
-    html += '<button class="btn btn-danger" onclick="submitQuiz()">✓ জমা দিন</button>';
-} else {
-    html += '<span style="flex: 1;"></span>';
-}
-
-html += '<button class="btn btn-secondary" onclick="nextQuestion()" ' + (isLast ? 'disabled' : '') + '>পরবর্তী <span style="font-size: 20px;">→</span></button>';
-html += '</div></div>';
-            return html;
-        }
-
-        function renderSubmitted() {
-            return '<div class="container"><div class="card">' +
-                '<div class="success-icon">✅</div>' +
-                '<div class="success-message">' +
-                '<h2>জমা সফল হয়েছে!</h2>' +
-                '<p style="font-size:17px; margin:15px 0;">' + state.participant.name + ', আপনার উত্তরপত্র সফলভাবে জমা হয়েছে।</p>' +
-                '<div class="info-box" style="margin-top:20px;">' +
-                '<h3>📊 পূর্ণ ফলাফলের তালিকা পরে জানানো হবে।</h3><ul>' +
-                '<li>সঠিক উত্তর: <strong>' + state.lastSubmission.correct + 'টি</strong></li>' +
-                '<li>ভুল উত্তর: <strong>' + state.lastSubmission.wrong + 'টি</strong></li>' +
-                '<li>উত্তর দেননি: <strong>' + state.lastSubmission.unanswered + 'টি</strong></li>' +
-                '<li>সময় লেগেছে: <strong>' + state.lastSubmission.timeTaken + '</strong></li>' +
-                '</ul></div>' +
-                '<p style="color:#6b7280; margin-top:20px; font-size: 14px;">আল্লাহ আপনাকে উত্তম প্রতিদান দিন। 🤲</p>' +
-                '</div></div></div>';
-        }
-
-        function render() {
-            var app = document.getElementById('app');
-            if (state.view === 'start') {
-                app.innerHTML = renderStart();
-            } else if (state.view === 'quiz') {
-                app.innerHTML = renderQuiz();
-            } else if (state.view === 'submitted') {
-                app.innerHTML = renderSubmitted();
-            }
-        }
 
         var hiddenTime = null;
 
         window.onbeforeunload = function(e) {
             if (state.view === 'quiz' && state.sessionId) {
-                saveState();
                 e = e || window.event;
                 if (e) {
                     e.returnValue = '';
@@ -1115,7 +1654,6 @@ html += '</div></div>';
 
                 if (document.hidden) {
                     hiddenTime = Date.now();
-                    saveState();
                 } else {
                     if (hiddenTime) {
                         var awayTime = Math.floor((Date.now() - hiddenTime) / 1000);
@@ -1126,11 +1664,10 @@ html += '</div></div>';
                             if (state.exitCount > 2) {
                                 if (state.timerInterval) clearInterval(state.timerInterval);
                                 alert('⚠️ আপনি ২ বারের বেশি পরীক্ষা থেকে বের হয়ে গেছেন!');
-                                resetQuiz();
+                                submitQuiz();
                                 return;
                             }
                             
-                            saveState();
                             showExitWarning();
                             return;
                         }
@@ -1148,16 +1685,9 @@ html += '</div></div>';
         }
 
         window.onload = function() {
-            loadState();
-            if (state.view === 'quiz' && state.sessionId && state.exitCount > 0) return;
             render();
         };
 
     </script>
 </body>
 </html>
-
-
-
-
-
