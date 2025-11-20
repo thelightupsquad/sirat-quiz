@@ -1383,10 +1383,7 @@ function handleEnterKey(event, qId) {
                 opts +
                 '</div>' +
                 '<div class="nav-buttons">' +
-                '<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>'+
-			    '</div>' +
-                '</div>' +  // wrapper close
-                '</div>';
+                '<button class="btn btn-secondary" onclick="prevQuestion()" ' + (state.currentQuestion === 0 ? 'disabled' : '') + '><span style="font-size: 20px;">←</span> পূর্ববর্তী</button>';
 
             if (isLast) {
                 html += '<button class="btn btn-danger" onclick="submitQuiz()">✓ জমা দিন</button>';
@@ -1395,7 +1392,9 @@ function handleEnterKey(event, qId) {
             }
 
             html += '<button class="btn btn-secondary" onclick="nextQuestion()" ' + (isLast ? 'disabled' : '') + '>পরবর্তী <span style="font-size: 20px;">→</span></button>';
-            html += '</div></div>';
+            html += '</div>' +  // nav-buttons close
+        '</div>' +  // quiz-content-wrapper close
+        '</div>';  // container close
             return html;
         }
 
@@ -1704,4 +1703,5 @@ function handleEnterKey(event, qId) {
     </script>
 </body>
 </html>
+
 
