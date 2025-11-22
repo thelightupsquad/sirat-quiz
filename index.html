@@ -1142,28 +1142,37 @@ function getBengaliOption(index) {
                 return;
             }
 
-        // Fullscreen request - এই অংশটা add করুন
-    try {
-        var elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-            elem.msRequestFullscreen();
-        }
-    } catch (e) {
-        console.log('Fullscreen not supported');
-    }
-			
             state.participant = { name: name, phone: phone };
             state.startTime = Date.now();
             state.sessionId = generateSessionId();
             state.view = 'quiz';
             state.exitCount = 0;
-            startTimer();
-            render();
+
+			// First render, then request fullscreen
+    render();
+    
+    // Fullscreen request - এখন এটা শেষে
+    setTimeout(function() {
+        try {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(function(err) {
+                    console.log('Fullscreen error:', err);
+                });
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        } catch (e) {
+            console.log('Fullscreen not supported');
         }
+    }, 100);
+    
+    startTimer();
+}
 
         function startTimer() {
             if (state.timerInterval) clearInterval(state.timerInterval);
@@ -1347,7 +1356,7 @@ function handleEnterKey(event, qId) {
                 '<input type="text" id="name" placeholder="পূর্ণ নাম লিখুন"maxlength="32"></div>' +
                 '<div class="form-group"><label>📱 মোবাইল নম্বর <span style="color: #dc2626;">*</span> (English)</label>' + 
                 '<input type="tel" id="phone" placeholder="Ex: 01886667466"  maxlength="11"></div>' +
-                '<button class="btn btn-primary" onclick="startQuiz()">বিসমিল্লাহির রাহমানির রাহীম</button>' +
+                '<button class="btn btn-primary" id="startBtn">বিসমিল্লাহির রাহমানির রাহীম</button>' +
                 '</div></div>';
             return html;
         }
@@ -1721,11 +1730,18 @@ function handleEnterKey(event, qId) {
 
         window.onload = function() {
             render();
+	   // Add event listener for start button
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'startBtn') {
+            startQuiz();
+        }
+    });
         };
 
     </script>
 </body>
 </html>
+
 
 
 
